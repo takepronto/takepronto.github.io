@@ -563,14 +563,17 @@ $("#enviar").onclick = async () => {
     // mesmo vídeo de novo (envio que caiu): continua no mesmo link de envio
     if (!envioAtual || envioAtual.blob !== b) {
       const d = await api({ acao: "iniciar", c: COD, story: s.n, tipo: b.type || "video/mp4", tamanho: b.size, mic: micGravado, origem: location.origin });
-      envioAtual = { blob: b, url: d.url, direto: d.direto };
+      envioAtual = { blob: b, url: d.url, direto: d.direto, nome: d.nome };
     }
     let pronto = false;
     if (envioAtual.direto) { const st = await putDireto(envioAtual.url, b); pronto = st === 200 || st === 201; }
     if (!pronto) pronto = await porPartes(envioAtual.url, b);
     if (!pronto) throw new Error("não terminou");
+    const nomeArq = envioAtual.nome;
     barra(1); envioAtual = null; blob = null;
-    feitos.add(atual); guardaFeitos(); $("#tempo").textContent = "0:00";
+    feitos.add(atual); guardaFeitos();
+    // avisa a equipe por e-mail (não trava o cliente se falhar)
+    api({ acao: "pronto", c: COD, story: s.n, nome: nomeArq, tudo: R.stories.every((_, i) => feitos.has(i)) }).catch(() => {}); $("#tempo").textContent = "0:00";
     const prox = R.stories.findIndex((_, i) => !feitos.has(i));
     if (prox >= 0) { atual = prox; mostra(); $("#msg").textContent = nomeItem(s) + " enviada ✓  Agora: " + nomeItem(R.stories[prox]) + "."; }
     else { mostra(); $("#msg").textContent = "Tudo enviado ✓  Obrigado! Nossa equipe já recebeu os " + R.stories.length + " vídeos."; }
