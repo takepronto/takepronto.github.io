@@ -1,0 +1,611 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="robots" content="noindex,nofollow">
+<title>TakePronto</title>
+<style>
+:root{--bg:#05080f;--ink:#f8fafc;--dim:#94a3b8;--azul:#3b82f6;--rec:#ef4444;--ok:#22c55e;--amar:#facc15;--vidro:rgba(5,8,15,.62)}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+[hidden]{display:none!important}
+html,body{margin:0;height:100%;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;overflow:hidden;overscroll-behavior:none}
+#cam{position:fixed;inset:0;width:100%;height:100%;object-fit:contain;transform:scaleX(-1);background:#000}
+#cam.oculto{opacity:0}
+#quadro{position:fixed;left:50%;top:50%;height:min(100vh,177.78vw);aspect-ratio:9/16;transform:translate(-50%,-50%) scaleX(-1);background:#000}
+#zoomLinha{display:flex;align-items:center;gap:10px}
+#zoom{flex:1;accent-color:var(--amar)}
+#micLinha{display:flex;align-items:center;gap:8px}
+#micOpcoes{flex:1;display:flex;gap:6px;min-width:0}
+#micOpcoes button{flex:1;min-width:0;height:42px;border:0;border-radius:12px;padding:0 8px;font:700 14px system-ui;background:rgba(255,255,255,.14);color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#micOpcoes button.on{background:var(--azul);color:#fff}
+#nivel{width:64px;height:10px;border-radius:5px;background:rgba(255,255,255,.18);overflow:hidden;flex:none}
+#nivel b{display:block;height:100%;width:0;background:var(--ok)}
+#micDica{font:600 13px/1.35 system-ui;color:var(--dim);text-align:center}
+#rev{position:fixed;inset:0;width:100%;height:100%;object-fit:contain;background:#000}
+/* teleprompter: perto da lente, no alto da tela */
+#tp{position:fixed;left:0;right:0;top:0;height:42%;padding:calc(env(safe-area-inset-top,0px) + 54px) max(18px,env(safe-area-inset-right,0px)) 0 max(18px,env(safe-area-inset-left,0px));
+  background:linear-gradient(var(--vidro) 78%,transparent);overflow:hidden;
+  -webkit-mask-image:linear-gradient(transparent 0,#000 14%,#000 82%,transparent 100%);mask-image:linear-gradient(transparent 0,#000 14%,#000 82%,transparent 100%)}
+#txt{font-size:var(--fs,30px);line-height:1.38;font-weight:700;letter-spacing:.005em;will-change:transform;padding-bottom:60vh}
+#topo{position:fixed;left:0;right:0;top:0;padding:calc(env(safe-area-inset-top,0px) + 8px) max(12px,env(safe-area-inset-right,0px)) 0 max(12px,env(safe-area-inset-left,0px));display:flex;gap:6px;z-index:5;overflow-x:auto;scrollbar-width:none}
+.chip{flex:none;border:0;border-radius:999px;padding:8px 13px;font:700 14px/1 system-ui;background:rgba(255,255,255,.14);color:var(--ink)}
+.chip.on{background:var(--azul)}
+.chip.feito::after{content:" ✓";color:var(--ok)}
+.chip.on.feito::after{color:#fff}
+#base{position:fixed;left:0;right:0;bottom:0;padding:16px max(16px,env(safe-area-inset-right,0px)) calc(env(safe-area-inset-bottom,0px) + 18px) max(16px,env(safe-area-inset-left,0px));
+  background:linear-gradient(transparent,rgba(5,8,15,.8) 40%);display:flex;flex-direction:column;gap:12px;z-index:5}
+.linha{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.mini{border:0;border-radius:14px;min-width:48px;height:44px;padding:0 12px;font:700 15px system-ui;background:rgba(255,255,255,.14);color:var(--ink)}
+#vel{flex:1;accent-color:var(--azul)}
+.rot{font:600 12px system-ui;color:var(--dim);letter-spacing:.06em;text-transform:uppercase}
+#rec{width:78px;height:78px;border-radius:50%;border:5px solid #fff;background:transparent;display:grid;place-items:center;padding:0}
+#rec i{display:block;width:58px;height:58px;border-radius:50%;background:var(--rec);transition:all .2s}
+#rec.gravando i{width:30px;height:30px;border-radius:8px}
+#tempo{font:700 17px ui-monospace,monospace;min-width:64px;text-align:center}
+#tempo.vermelho{color:var(--rec)}
+.grande{flex:1;border:0;border-radius:16px;height:54px;font:800 17px system-ui;color:#fff}
+#enviar{background:var(--ok);color:#05210f}
+#enviar:disabled{opacity:.6}
+#regravar{background:rgba(255,255,255,.16)}
+#barra{height:8px;border-radius:4px;background:rgba(255,255,255,.18);overflow:hidden}
+#barra b{display:block;height:100%;width:0;background:var(--ok);transition:width .2s}
+#aviso{position:fixed;inset:0;display:grid;place-items:center;padding:24px;text-align:center;z-index:9;background:var(--bg)}
+#aviso>div{max-width:420px}
+#aviso h1{font-size:24px;margin:0 0 10px}#aviso p{color:var(--dim);margin:0 0 18px;line-height:1.45}
+#aviso button{border:0;border-radius:16px;height:54px;padding:0 26px;font:800 17px system-ui;background:var(--azul);color:#fff}
+#aviso button:disabled{opacity:.5}
+#conta{position:fixed;inset:0;display:grid;place-items:center;font:900 140px system-ui;color:#fff;text-shadow:0 6px 30px rgba(0,0,0,.6);z-index:8;pointer-events:none}
+#msg{font:600 14px system-ui;color:var(--dim);text-align:center;min-height:18px}
+button:focus-visible{outline:3px solid var(--amar);outline-offset:2px}
+</style>
+</head>
+<body>
+<video id="cam" playsinline autoplay muted></video>
+<canvas id="quadro" width="1080" height="1920" hidden></canvas>
+<video id="rev" playsinline controls hidden></video>
+<div id="topo"></div>
+<div id="tp"><div id="txt"></div></div>
+<div id="conta" hidden></div>
+<div id="base">
+  <div class="linha" id="ajustes">
+    <button class="mini" id="menos" aria-label="Letra menor">A−</button>
+    <button class="mini" id="mais" aria-label="Letra maior">A+</button>
+    <span class="rot">Velocidade</span><input id="vel" type="range" min="10" max="90" value="38" aria-label="Velocidade do texto">
+  </div>
+  <div class="linha" id="micLinha" hidden>
+    <span class="rot">Mic</span>
+    <div id="micOpcoes" role="group" aria-label="Microfone">
+      <button type="button" data-m="celular">📱 Do celular</button>
+      <button type="button" data-m="externo">🎙 Externo</button>
+    </div>
+    <span id="nivel" title="Nível do microfone"><b></b></span>
+  </div>
+  <div id="micDica" hidden></div>
+  <div class="linha" id="zoomLinha" hidden>
+    <span class="rot" id="zrot">Zoom</span><input id="zoom" type="range" min="1" max="3" step="0.01" value="1" aria-label="Zoom da câmera">
+    <button class="mini" id="lente">Frontal</button>
+  </div>
+  <div class="linha" id="gravar">
+    <button class="mini" id="topoBtn">Do início</button>
+    <button id="rec" aria-label="Gravar"><i></i></button>
+    <span id="tempo">0:00</span>
+  </div>
+  <div class="linha" id="depois" hidden>
+    <button class="grande" id="regravar">Regravar</button>
+    <button class="grande" id="enviar">Enviar</button>
+  </div>
+  <div id="barra" hidden><b></b></div>
+  <div id="msg"></div>
+</div>
+<div id="aviso"><div><div style="font:800 15px system-ui;letter-spacing:.14em;text-transform:uppercase;color:var(--azul);margin-bottom:14px">TakePronto</div><h1 id="avT">Carregando o roteiro…</h1><p id="avP">Leia o texto no alto da tela e grave cada parte. Cada vídeo enviado chega direto para a nossa equipe de edição.</p><button id="ligar" disabled>Ligar a câmera</button><br><button id="copiar" hidden style="margin-top:12px;background:rgba(255,255,255,.14)">Copiar o link</button></div></div>
+<script src="/gravar/config.js"></script>
+<script>
+const $ = (s) => document.querySelector(s);
+const API = window.GRAVADOR_API || "";
+// link curto: take-um.github.io/<código>  (o GitHub entrega esta mesma página como 404.html); o antigo ?c=<código> continua valendo
+const COD = ((new URLSearchParams(location.search).get("c") || location.pathname.split("/").filter((s) => s && s !== "index.html" && s !== "404.html" && s !== "gravar").pop() || "") + "").trim().toLowerCase();
+let R = { titulo: "", item: "Parte", stories: [] }, atual = 0, stream = null, rec = null, pedacos = [], blob = null, tipo = "";
+let rolando = false, y = 0, ultimo = 0, t0 = 0, relogio = null, trava = null;
+const feitos = new Set();
+try { JSON.parse(localStorage.getItem("feitos-" + COD) || "[]").forEach((i) => feitos.add(i)); } catch (e) {}
+const guardaFeitos = () => { try { localStorage.setItem("feitos-" + COD, JSON.stringify([...feitos])); } catch (e) {} };
+let fs = 30; try { fs = +localStorage.getItem("fs") || 30; $("#vel").value = localStorage.getItem("vel") || 38; } catch (e) {}
+document.documentElement.style.setProperty("--fs", fs + "px");
+const nomeItem = (s) => (R.item || "Parte") + " " + s.n;
+
+// ---------------------------------------------------------------- roteiro e teleprompter
+function chips() {
+  $("#topo").innerHTML = "";
+  R.stories.forEach((s, i) => {
+    const b = document.createElement("button");
+    b.className = "chip" + (i === atual ? " on" : "") + (feitos.has(i) ? " feito" : "");
+    b.textContent = nomeItem(s);
+    b.onclick = () => { if (!rec && !enviando) { atual = i; mostra(); } };
+    $("#topo").appendChild(b);
+  });
+}
+function mostra() {
+  const s = R.stories[atual];
+  $("#txt").textContent = s ? s.fala : "";
+  y = 0; $("#txt").style.transform = "translateY(0)";
+  chips(); modo("gravar");
+  $("#msg").textContent = s ? (s.titulo || nomeItem(s)) + " · uns " + Math.round(s.fala.split(/\s+/).length / 2.5) + " s" : "";
+}
+// para de vez o vídeo de revisão (imagem e som) e solta o arquivo
+function paraRevisao() {
+  const v = $("#rev"); try { v.pause(); v.muted = true; v.currentTime = 0; } catch (e) {}
+  const u = v.getAttribute("src"); v.removeAttribute("src"); try { v.load(); } catch (e) {}
+  if (u && u.startsWith("blob:")) { try { URL.revokeObjectURL(u); } catch (e) {} }
+}
+function modo(m) {
+  if (m !== "depois") paraRevisao(); else $("#rev").muted = false;
+  $("#gravar").hidden = m !== "gravar"; $("#ajustes").hidden = m === "depois";
+  $("#depois").hidden = m !== "depois"; $("#rev").hidden = m !== "depois"; $("#tp").hidden = m === "depois";
+  if (stream) { $("#zoomLinha").hidden = m !== "gravar"; $("#micLinha").hidden = m !== "gravar"; $("#micDica").hidden = m !== "gravar" || !$("#micDica").textContent; }
+  $("#barra").hidden = true;
+}
+function maxY() { return Math.max(0, $("#txt").scrollHeight - 0.4 * window.innerHeight); }
+function poeY(v) { y = Math.max(0, Math.min(maxY(), v)); $("#txt").style.transform = `translateY(${-y}px)`; }
+function passo(t) {
+  if (!rolando) return;
+  const dt = (t - ultimo) / 1000; ultimo = t;
+  if (!arrastando) poeY(y + dt * (+$("#vel").value));
+  requestAnimationFrame(passo);
+}
+function rola(on) { if (on === rolando) return; rolando = on; if (on) { ultimo = performance.now(); requestAnimationFrame(passo); } }
+// arrastar o texto com o dedo volta ou adianta; um toque sem arrastar pausa/continua
+let arrastando = false, arrastou = false, dedoY0 = 0, y0 = 0;
+$("#tp").style.touchAction = "none";
+$("#tp").addEventListener("pointerdown", (e) => { arrastando = true; arrastou = false; dedoY0 = e.clientY; y0 = y; try { $("#tp").setPointerCapture(e.pointerId); } catch (_) {} });
+$("#tp").addEventListener("pointermove", (e) => { if (!arrastando) return; const d = e.clientY - dedoY0; if (Math.abs(d) > 8) arrastou = true; if (arrastou) poeY(y0 - d); });
+const soltou = () => { if (!arrastando) return; arrastando = false; ultimo = performance.now(); };
+$("#tp").addEventListener("pointerup", soltou); $("#tp").addEventListener("pointercancel", soltou);
+$("#tp").onclick = () => { if (arrastou) { arrastou = false; return; } if (rec) rola(!rolando); };
+$("#vel").oninput = () => { try { localStorage.setItem("vel", $("#vel").value); } catch (e) {} };
+$("#menos").onclick = () => tam(-2); $("#mais").onclick = () => tam(2);
+function tam(d) { fs = Math.max(20, Math.min(48, fs + d)); document.documentElement.style.setProperty("--fs", fs + "px"); try { localStorage.setItem("fs", fs); } catch (e) {} }
+$("#topoBtn").onclick = () => { y = 0; $("#txt").style.transform = "translateY(0)"; };
+
+// ---------------------------------------------------------------- câmera
+async function ligar() {
+  // a câmera tem que vir EM PÉ com o celular em pé; no iPhone o Safari só gira quando o pedido usa medidas deitadas
+  const fm = lente === "tras" ? "environment" : "user";
+  const PEDIDOS = [
+    { facingMode: fm, width: { ideal: 1920 }, height: { ideal: 1440 }, frameRate: { ideal: 30 } },
+    { facingMode: fm, width: { ideal: 1920 }, height: { ideal: 1080 }, frameRate: { ideal: 30 } },
+    { facingMode: fm, width: { ideal: 1440 }, height: { ideal: 1920 }, frameRate: { ideal: 30 } },
+    { facingMode: fm, frameRate: { ideal: 30 } },
+  ];
+  const emPeTela = () => (window.innerHeight || 1) >= (window.innerWidth || 0);
+  const medeEmPe = (s) => new Promise((ok) => {
+    const v = document.createElement("video"); v.muted = true; v.playsInline = true; v.setAttribute("playsinline", ""); v.srcObject = s;
+    let feito = false; const fim = () => { if (feito) return; feito = true; const r = (v.videoHeight || 0) >= (v.videoWidth || 1); v.srcObject = null; ok(r); };
+    const conf = () => { if (v.videoWidth) setTimeout(fim, 450); };
+    v.addEventListener("loadeddata", conf); v.addEventListener("resize", conf);
+    v.play().catch(() => {}); setTimeout(fim, 1800);
+  });
+  const pedeVideo = async () => {
+    if (R.formato === "inteira")
+      return navigator.mediaDevices.getUserMedia({ video: { facingMode: fm, width: { ideal: 1440 }, height: { ideal: 1920 }, aspectRatio: { ideal: 0.75 }, frameRate: { ideal: 30 } } });
+    let primeiro = null, ultimoErro = null;
+    for (const v of PEDIDOS) {
+      let s = null;
+      try { s = await navigator.mediaDevices.getUserMedia({ video: v }); } catch (e) { ultimoErro = e; if (e.name === "NotAllowedError" || e.name === "SecurityError") break; continue; }
+      if (!primeiro) primeiro = s;
+      if (!emPeTela() || await medeEmPe(s)) { if (primeiro !== s) primeiro.getTracks().forEach((t) => t.stop()); return s; }
+      if (s !== primeiro) s.getTracks().forEach((t) => t.stop());
+    }
+    if (primeiro) return primeiro;
+    // último recurso: o pedido mais simples possível (alguns Android recusam qualquer medida)
+    if (!ultimoErro || (ultimoErro.name !== "NotAllowedError" && ultimoErro.name !== "SecurityError")) {
+      try { return await navigator.mediaDevices.getUserMedia({ video: true }); } catch (e) { ultimoErro = e; }
+    }
+    throw marca(ultimoErro || new Error("sem câmera"), "camera");
+  };
+  const marca = (e, qual) => { try { e.qual = qual; } catch (_) {} return e; };
+  try {
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) throw marca(new Error("sem acesso"), "navegador");
+    // o microfone vem num pedido separado: no iPhone, pedir junto com a câmera ignora o microfone escolhido
+    let som = null;
+    if (micId) { try { som = await navigator.mediaDevices.getUserMedia({ audio: somPedido() }); } catch (e) { som = null; } }
+    const vid = await pedeVideo();
+    if (!som) {
+      try { som = await navigator.mediaDevices.getUserMedia({ audio: (() => { const a = somPedido(); delete a.deviceId; return a; })() }); }
+      catch (e) {
+        if (e.name === "NotAllowedError" || e.name === "SecurityError") { vid.getTracks().forEach((t) => t.stop()); throw marca(e, "microfone"); }
+        try { som = await navigator.mediaDevices.getUserMedia({ audio: true }); } catch (e2) { vid.getTracks().forEach((t) => t.stop()); throw marca(e2, "microfone"); }
+      }
+    }
+    const f = som.getAudioTracks()[0];
+    if (micId && f && f.getSettings().deviceId !== micId) {
+      try { const s2 = await navigator.mediaDevices.getUserMedia({ audio: somPedido() }); som.getTracks().forEach((t) => t.stop()); som = s2; } catch (e) {}
+    }
+    stream = new MediaStream([...vid.getVideoTracks(), ...som.getAudioTracks()]);
+  } catch (e) {
+    $("#aviso").hidden = false;
+    explicaErro(e);
+    return;
+  }
+  // daqui em diante a câmera já abriu: um erro aqui não pode virar "a câmera não abriu"
+  try { const v = stream.getVideoTracks()[0], a = stream.getAudioTracks()[0]; diag("OK câmera " + (v ? v.label : "?") + " | mic " + (a ? a.label : "?")); } catch (_) {}
+  $("#cam").srcObject = stream; $("#aviso").hidden = true;
+  try { $("#cam").play().catch(() => {}); } catch (e) {}
+  try { espelho(); zoomPronto(); medidor(); await listaMics(); } catch (e) {}
+  modo($("#depois").hidden ? "gravar" : "depois");
+  try { trava = await navigator.wakeLock.request("screen"); } catch (e) {}
+}
+// navegador de dentro de app (Instagram, Facebook, TikTok, LinkedIn…): costuma bloquear câmera
+const UA = navigator.userAgent || "";
+const DENTRO_DE_APP = /Instagram|FBAN|FBAV|FB_IAB|TikTok|musical_ly|BytedanceWebview|LinkedInApp|Snapchat|Line\/|; wv\)/i.test(UA);
+const IOS = /iPhone|iPad|iPod/i.test(UA);
+function diag(texto) {
+  try { fetch(API, { method: "POST", body: JSON.stringify({ acao: "log", c: COD, texto: texto + " | " + UA + " | seguro:" + window.isSecureContext + " md:" + !!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia) + " | " + location.href }) }).catch(() => {}); } catch (_) {}
+}
+function explicaErro(e) {
+  diag("ERRO " + ((e && e.qual) || "camera") + " " + ((e && e.name) || "?") + ": " + ((e && e.message) || e));
+  const nome = (e && e.name) || "Erro", qual = (e && e.qual) || "camera";
+  const abrir = IOS ? "Toque nos três pontinhos (ou no ícone de compartilhar) e escolha “Abrir no Safari”." : "Toque nos três pontinhos e escolha “Abrir no Chrome” (ou no navegador).";
+  let t = "A câmera não abriu", p = "";
+  const SAFARI = /Safari/i.test(UA) && !/CriOS|FxiOS|EdgiOS|GSA|Chrome|Android/i.test(UA);
+  if (qual === "navegador" && SAFARI && !DENTRO_DE_APP) {
+    // Safari sem acesso nenhum à câmera: quase sempre câmera/microfone em "Negar" nos ajustes do Safari
+    t = "Libere a câmera no Safari";
+    p = (/Macintosh/i.test(UA)
+      ? "No Mac: menu Safari → Ajustes → Sites → Câmera e Microfone → takepronto.com.br: Permitir."
+      : "No iPhone: Ajustes → Apps → Safari → Câmera: Perguntar (ou Permitir) e Microfone: Perguntar (ou Permitir).") +
+      " Depois feche esta aba e abra o link de novo.";
+  } else if (qual === "navegador" || (DENTRO_DE_APP && nome !== "NotReadableError")) {
+    t = "Abra no navegador do celular";
+    p = "Este aplicativo não deixa usar a câmera aqui dentro. " + abrir + " Ou copie o link abaixo e cole no " + (IOS ? "Safari." : "Chrome.");
+  } else if (nome === "NotAllowedError" || nome === "SecurityError") {
+    t = qual === "microfone" ? "O microfone foi bloqueado" : "A câmera foi bloqueada";
+    p = IOS
+      ? "Toque em “aA” na barra de endereço do Safari → Ajustes do Site → Câmera e Microfone: Permitir. Depois toque em Ligar a câmera de novo. Se não aparecer: Ajustes do iPhone → Safari → Câmera e Microfone → Perguntar."
+      : "Toque no cadeado ao lado do endereço → Permissões → libere Câmera e Microfone. Depois toque em Ligar a câmera de novo.";
+  } else if (nome === "NotReadableError" || nome === "AbortError" || nome === "TrackStartError") {
+    t = qual === "microfone" ? "O microfone está ocupado" : "A câmera está ocupada";
+    p = "Outro aplicativo está usando " + (qual === "microfone" ? "o microfone" : "a câmera") + " (ligação, WhatsApp, Instagram, câmera aberta). Feche esses aplicativos e toque em Ligar a câmera de novo. Se continuar, reinicie o celular.";
+  } else if (nome === "NotFoundError" || nome === "OverconstrainedError" || nome === "DevicesNotFoundError") {
+    p = "O celular não mostrou nenhuma " + (qual === "microfone" ? "entrada de microfone" : "câmera") + " para o navegador. Feche e abra o link de novo; se continuar, tente pelo " + (IOS ? "Safari." : "Chrome.");
+  } else {
+    p = "Tente de novo. Se continuar, abra o link no " + (IOS ? "Safari" : "Chrome") + " e libere câmera e microfone.";
+  }
+  $("#avT").textContent = t;
+  $("#avP").textContent = p + " (código: " + qual + " · " + nome + ")";
+  $("#ligar").textContent = "Tentar de novo";
+  $("#copiar").hidden = false;
+}
+async function copiaLink() {
+  try { await navigator.clipboard.writeText(location.href); $("#copiar").textContent = "Link copiado ✓"; }
+  catch (e) { prompt("Copie o link:", location.href); }
+}
+$("#ligar").onclick = ligar;
+$("#copiar").onclick = () => copiaLink();
+
+// ---------------------------------------------------------------- microfone: a pessoa escolhe celular ou externo
+// som cru (sem os filtros de chamada de voz, que abafam e comprimem)
+let micId = "", escolha = "auto", mics = [];
+try { micId = localStorage.getItem("micC") || ""; escolha = localStorage.getItem("micEscolha") || "auto"; } catch (e) {}
+function somPedido() {
+  const a = { echoCancellation: false, noiseSuppression: false, autoGainControl: false, sampleRate: { ideal: 48000 } };
+  if (micId) a.deviceId = { exact: micId };
+  return a;
+}
+const INTERNO = /iphone|ipad|built-in|interno|embutido|internal|bottom|top|front|back|speakerphone|telefone|phone mic/i;
+const EXTERNO = /hollyland|lark|wireless|sem fio|usb|extern|lav|rode|dji|boya|saramonic|comica|receiver|receptor|\brx\b|headset|fone|earphone|airpods|buds|bluetooth|\bbt\b|lapela|audio device/i;
+const tentados = new Set();   // cada microfone é tentado sozinho uma vez só (evita ficar trocando sem parar)
+const ehExterno = (d) => !!d && EXTERNO.test(d.label || "") && !INTERNO.test(d.label || "");
+async function listaMics() {
+  try { mics = (await navigator.mediaDevices.enumerateDevices()).filter((d) => d.kind === "audioinput" && d.deviceId !== "default" && d.deviceId !== "communications"); } catch (e) { mics = []; }
+  const externos = mics.filter(ehExterno);
+  const internos = mics.filter((d) => !ehExterno(d));
+  const faixa = stream && stream.getAudioTracks()[0];
+  const emUso = faixa ? (faixa.getSettings().deviceId || "") : "";
+  const usandoExterno = externos.some((d) => d.deviceId === emUso) || (faixa && EXTERNO.test(faixa.label || "") && !INTERNO.test(faixa.label || ""));
+  // sozinho só na primeira vez: se tem microfone externo conectado e a pessoa não escolheu o do celular, usa o externo
+  const livre = !rec && !trocando && !enviando;
+  const ext = externos.find((d) => !tentados.has(d.deviceId));
+  if (livre && escolha !== "celular" && ext && !usandoExterno) { tentados.add(ext.deviceId); trocaMic(ext.deviceId); return; }
+  const int = internos.find((d) => !tentados.has(d.deviceId));
+  if (livre && escolha === "celular" && usandoExterno && int) { tentados.add(int.deviceId); trocaMic(int.deviceId); return; }
+  pintaMic(usandoExterno, externos, faixa);
+}
+function pintaMic(usandoExterno, externos, faixa) {
+  const [bc, be] = $("#micOpcoes").querySelectorAll("button");
+  bc.classList.toggle("on", !usandoExterno); be.classList.toggle("on", !!usandoExterno);
+  be.textContent = "🎙 " + (usandoExterno && faixa && faixa.label ? curto(faixa.label) : "Externo");
+  let dica = "";
+  if (!usandoExterno && escolha === "externo" && !externos.length) dica = "Nenhum microfone externo apareceu. Conecte o receptor e espere uns segundos: ele entra sozinho.";
+  else if (usandoExterno && externos.length > 1) dica = "Toque em Externo de novo para trocar entre os microfones conectados.";
+  $("#micDica").textContent = dica; $("#micDica").hidden = !dica || $("#gravar").hidden;
+}
+const curto = (s) => s.replace(/\s*\([0-9a-f]{4}:[0-9a-f]{4}\)\s*/i, "").slice(0, 22);
+let trocando = false;
+async function trocaMic(id) {
+  if (rec) return;
+  micId = id; trocando = true;
+  try { localStorage.setItem("micC", id); } catch (e) {}
+  if (stream) { stream.getTracks().forEach((t) => t.stop()); stream = null; await ligar(); }
+  trocando = false;
+}
+$("#micOpcoes").addEventListener("click", (e) => {
+  const b = e.target.closest("button"); if (!b || rec || trocando) return;
+  escolha = b.dataset.m; try { localStorage.setItem("micEscolha", escolha); } catch (er) {}
+  const externos = mics.filter(ehExterno), internos = mics.filter((d) => !ehExterno(d));
+  const emUso = (stream && stream.getAudioTracks()[0]) ? stream.getAudioTracks()[0].getSettings().deviceId : "";
+  if (escolha === "externo") {
+    if (!externos.length) { listaMics(); return; }
+    const i = externos.findIndex((d) => d.deviceId === emUso);
+    trocaMic(externos[(i + 1) % externos.length].deviceId);   // toque de novo passa para o próximo externo
+  } else {
+    const alvo = internos.find((d) => INTERNO.test(d.label || "")) || internos[0];
+    if (alvo && alvo.deviceId !== emUso) trocaMic(alvo.deviceId); else listaMics();
+  }
+});
+if (navigator.mediaDevices && navigator.mediaDevices.addEventListener) navigator.mediaDevices.addEventListener("devicechange", () => { if (!rec) listaMics(); });
+// o iPhone nem sempre avisa quando um receptor é conectado: confere a cada 2 s (só se a pessoa não escolheu o do celular)
+setInterval(async () => {
+  if (!stream || rec || trocando || escolha === "celular" || enviando) return;
+  try {
+    const l = (await navigator.mediaDevices.enumerateDevices()).filter((d) => d.kind === "audioinput" && d.deviceId !== "default" && d.deviceId !== "communications");
+    if (l.map((d) => d.deviceId).join() !== mics.map((d) => d.deviceId).join()) { tentados.clear(); listaMics(); }
+  } catch (e) {}
+}, 2000);
+const acordaSom = () => { if (actx && actx.state !== "running") { try { actx.resume(); } catch (e) {} } };
+["touchend", "click", "pointerup"].forEach((ev) => document.addEventListener(ev, acordaSom, true));
+// microfone mudo: só uma dica discreta (sem alarme vermelho)
+let semSomDesde = 0;
+setInterval(() => {
+  if (!stream || rec || $("#gravar").hidden) { semSomDesde = 0; return; }
+  if (pico <= -85) { if (!semSomDesde) semSomDesde = Date.now(); } else if (semSomDesde) { semSomDesde = 0; listaMics(); }
+  if (semSomDesde && Date.now() - semSomDesde > 2500) {
+    $("#micDica").textContent = (actx && actx.state !== "running") ? "Toque em qualquer lugar da tela para ligar o som." : "O microfone não está captando som. Toque em “Do celular” ou “Externo” para trocar.";
+    $("#micDica").hidden = false;
+  }
+}, 700);
+
+// ---------------------------------------------------------------- nível e ganho automático
+// o iPhone entrega o som cru bem baixo: o ganho sobe sozinho até a fala chegar perto de -6 dB, com limitador de segurança
+let somPronto = false, actx = null, analisador = null, analisadorPre = null, fonteMic = null, pico = -90, picoMaxPre = -90, ganhoNo = null, limitador = null, destinoSom = null, ganhoDb = 20;
+function aplicaGanho() { if (ganhoNo) { try { ganhoNo.gain.setTargetAtTime(Math.pow(10, ganhoDb / 20), actx.currentTime, 0.08); } catch (e) { ganhoNo.gain.value = Math.pow(10, ganhoDb / 20); } } }
+function medidor() {
+  try {
+    if (!actx) {
+      const taxa = (stream.getAudioTracks()[0] && stream.getAudioTracks()[0].getSettings && stream.getAudioTracks()[0].getSettings().sampleRate) || 0;
+      const AC = window.AudioContext || window.webkitAudioContext;
+      try { actx = taxa ? new AC({ sampleRate: taxa }) : new AC(); } catch (e) { actx = new AC(); }
+      analisador = actx.createAnalyser(); analisador.fftSize = 2048;
+      ganhoNo = actx.createGain();
+      limitador = actx.createDynamicsCompressor();
+      limitador.threshold.value = -1.5; limitador.knee.value = 0; limitador.ratio.value = 20; limitador.attack.value = 0.001; limitador.release.value = 0.05;
+      analisadorPre = actx.createAnalyser(); analisadorPre.fftSize = 2048;
+      destinoSom = actx.createMediaStreamDestination();
+      ganhoNo.connect(limitador); limitador.connect(destinoSom); limitador.connect(analisador);
+      desenhaNivel();
+    }
+    if (actx.state !== "running") { try { actx.resume(); } catch (e) {} }
+    somPronto = false;
+    if (fonteMic) fonteMic.disconnect();
+    fonteMic = actx.createMediaStreamSource(new MediaStream(stream.getAudioTracks()));
+    // receptores sem fio costumam mandar a voz num canal só: junta os dois em mono
+    const sep = actx.createChannelSplitter(2), mono = actx.createGain();
+    mono.channelCount = 1; mono.channelCountMode = "explicit"; mono.channelInterpretation = "speakers";
+    fonteMic.connect(sep); sep.connect(mono, 0); sep.connect(mono, 1); mono.connect(ganhoNo); mono.connect(analisadorPre);
+    picoMaxPre = -90; ganhoDb = 20;
+    aplicaGanho(); somPronto = true;
+  } catch (e) {}
+}
+function desenhaNivel() {
+  const buf = new Float32Array(analisador.fftSize);
+  let ultimoAjuste = 0;
+  const loop = () => {
+    analisadorPre.getFloatTimeDomainData(buf);
+    let mp = 0; for (let i = 0; i < buf.length; i++) mp = Math.max(mp, Math.abs(buf[i]));
+    const picoPre = mp > 0 ? 20 * Math.log10(mp) : -90;
+    picoMaxPre = Math.max(picoPre, picoMaxPre - 0.003);
+    if (picoMaxPre > -60 && Date.now() - ultimoAjuste > 120) {
+      ultimoAjuste = Date.now();
+      const alvo = Math.max(0, Math.min(40, -6 - picoMaxPre));
+      if (alvo < ganhoDb - 0.5) { ganhoDb = Math.round(alvo); aplicaGanho(); }
+      else if (!rec && alvo > ganhoDb + 0.5) { ganhoDb = Math.min(Math.round(alvo), ganhoDb + 1); aplicaGanho(); }
+    }
+    analisador.getFloatTimeDomainData(buf);
+    let m = 0; for (let i = 0; i < buf.length; i++) m = Math.max(m, Math.abs(buf[i]));
+    const db = m > 0 ? 20 * Math.log10(m) : -90;
+    pico = Math.max(db, pico - 0.6);
+    const b = $("#nivel b"); b.style.width = Math.max(0, Math.min(100, (pico + 60) / 60 * 100)) + "%";
+    b.style.background = pico > -3 ? "var(--rec)" : pico > -9 ? "var(--amar)" : "var(--ok)";
+    requestAnimationFrame(loop);
+  };
+  loop();
+}
+
+// ---------------------------------------------------------------- enquadramento 9:16 e zoom
+let formato = "story", camInfo = "", dzoom = 1, lente = "frente";
+try { lente = localStorage.getItem("lente") || "frente"; dzoom = Math.max(1, +localStorage.getItem("dzoom") || 1); } catch (e) {}
+function zoomPronto() { $("#zoomLinha").hidden = false; aplicaFormato(); }
+function espelho() {
+  const f = lente === "frente";
+  $("#quadro").style.transform = "translate(-50%,-50%)" + (f ? " scaleX(-1)" : "");
+  $("#cam").style.transform = f ? "scaleX(-1)" : "none";
+  $("#lente").textContent = f ? "Frontal" : "Traseira";
+}
+$("#lente").onclick = async () => {
+  if (rec) return;
+  lente = lente === "frente" ? "tras" : "frente";
+  try { localStorage.setItem("lente", lente); } catch (e) {}
+  if (stream) { stream.getTracks().forEach((t) => t.stop()); stream = null; await ligar(); } else espelho();
+};
+function aplicaFormato() {
+  const story = formato === "story";
+  $("#quadro").hidden = !story; $("#cam").classList.toggle("oculto", story);
+  $("#zoom").hidden = !story; $("#zrot").hidden = !story;
+  if (story) {
+    const z = $("#zoom"); z.value = dzoom; zrot();
+    z.oninput = () => { dzoom = +z.value; zrot(); try { localStorage.setItem("dzoom", dzoom); } catch (e) {} };
+    desenha();
+  }
+}
+$("#cam").addEventListener("loadedmetadata", () => { if (stream) aplicaFormato(); });
+function zrot() { $("#zrot").textContent = "Zoom " + dzoom.toFixed(1) + "×"; }
+let desenhando = false;
+function desenha() {
+  if (desenhando) return; desenhando = true;
+  const v = $("#cam"), c = $("#quadro"), g = c.getContext("2d");
+  const loop = () => {
+    if (formato !== "story") { desenhando = false; return; }
+    const vw = v.videoWidth, vh = v.videoHeight;
+    if (vw && vh) {
+      const cw = Math.min(vw, vh * 9 / 16) / dzoom, k = 1080 / cw;
+      const w = vw * k, h = vh * k;
+      g.drawImage(v, (1080 - w) / 2, (1920 - h) / 2, w, h);
+    }
+    requestAnimationFrame(loop);
+  };
+  requestAnimationFrame(loop);
+}
+document.addEventListener("visibilitychange", async () => { if (document.visibilityState === "visible" && stream) { try { trava = await navigator.wakeLock.request("screen"); } catch (e) {} } });
+
+// ---------------------------------------------------------------- gravar
+function melhorTipo() {
+  for (const t of ["video/mp4;codecs=avc1,mp4a", "video/mp4", "video/webm;codecs=vp9,opus", "video/webm;codecs=vp8,opus", "video/webm"])
+    if (window.MediaRecorder && MediaRecorder.isTypeSupported(t)) return t;
+  return "";
+}
+async function contagem() {
+  for (const n of [3, 2, 1]) { $("#conta").textContent = n; $("#conta").hidden = false; await new Promise((r) => setTimeout(r, 750)); }
+  $("#conta").hidden = true;
+}
+let micGravado = "";
+$("#rec").onclick = async () => {
+  if (!stream) return ligar();
+  if (!window.MediaRecorder && !rec) { $("#msg").textContent = "Este navegador não grava vídeo. " + (IOS ? "Atualize o iPhone (iOS 14.3 ou mais novo) e use o Safari." : "Use o Chrome atualizado."); diag("ERRO sem MediaRecorder"); return; }
+  if (rec) { rec.stop(); return; }
+  paraRevisao();
+  y = 0; $("#txt").style.transform = "translateY(0)";
+  $("#micDica").hidden = true;
+  await contagem();
+  tipo = melhorTipo(); pedacos = [];
+  if (actx && actx.state !== "running") { try { await actx.resume(); } catch (e) {} }
+  const somOk = somPronto && actx && actx.state === "running" && destinoSom && destinoSom.stream.getAudioTracks().length;
+  const somGravado = somOk ? destinoSom.stream.getAudioTracks() : stream.getAudioTracks();
+  const video = (formato === "story" && $("#quadro").captureStream) ? $("#quadro").captureStream(30).getVideoTracks() : stream.getVideoTracks();
+  const fonte = new MediaStream([...video, ...somGravado]);
+  try { rec = new MediaRecorder(fonte, tipo ? { mimeType: tipo, videoBitsPerSecond: 8000000, audioBitsPerSecond: 256000 } : undefined); }
+  catch (e) { try { rec = new MediaRecorder(fonte); tipo = rec.mimeType || ""; } catch (e2) { rec = null; diag("ERRO MediaRecorder " + e2.name + ": " + e2.message); $("#msg").textContent = "Não consegui gravar neste navegador (" + e2.name + "). Tente pelo " + (IOS ? "Safari." : "Chrome."); return; } }
+  rec.ondataavailable = (e) => { if (e.data && e.data.size) pedacos.push(e.data); };
+  rec.onstop = () => {
+    if (formato === "story") fonte.getVideoTracks().forEach((t) => t.stop());
+    clearInterval(relogio); rola(false); $("#rec").classList.remove("gravando"); $("#tempo").classList.remove("vermelho");
+    blob = new Blob(pedacos, { type: (tipo || "video/mp4").split(";")[0] }); rec = null;
+    $("#rev").src = URL.createObjectURL(blob); modo("depois");
+    $("#msg").textContent = "Confira e envie. Tamanho: " + (blob.size / 1e6).toFixed(1) + " MB";
+  };
+  { const f = stream.getAudioTracks()[0]; micGravado = (f ? f.label : "sem microfone") + " | ganho +" + ganhoDb + " dB | " + (somOk ? "com ganho" : "som direto"); }
+  rec.start(1000); t0 = Date.now(); rola(true);
+  $("#rec").classList.add("gravando"); $("#tempo").classList.add("vermelho");
+  $("#msg").textContent = "Gravando. Toque no texto para pausar a rolagem.";
+  relogio = setInterval(() => { const s = Math.floor((Date.now() - t0) / 1000); $("#tempo").textContent = Math.floor(s / 60) + ":" + String(s % 60).padStart(2, "0"); }, 250);
+};
+$("#regravar").onclick = () => { if (enviando) return; paraRevisao(); blob = null; $("#tempo").textContent = "0:00"; mostra(); };
+window.addEventListener("beforeunload", (e) => { if (blob || rec) { e.preventDefault(); e.returnValue = ""; } });
+
+// ---------------------------------------------------------------- enviar para o Drive
+// 1) o script cria o envio no Drive; 2) o celular manda direto para o Drive; se o navegador não deixar,
+// 3) manda em partes de 8 MB passando pelo script, continuando de onde parou se a internet cair
+let enviando = false, envioAtual = null;
+async function api(corpo) {
+  const r = await fetch(API, { method: "POST", body: JSON.stringify(corpo) });   // texto puro: sem pré-voo
+  const d = await r.json();
+  if (!d.ok) throw new Error(d.erro || "erro");
+  return d;
+}
+const barra = (f) => { $("#barra b").style.width = Math.min(100, f * 100).toFixed(1) + "%"; };
+function putDireto(url, b) {
+  return new Promise((ok) => {
+    const x = new XMLHttpRequest();
+    x.open("PUT", url);
+    x.upload.onprogress = (e) => { if (e.lengthComputable) barra(e.loaded / b.size); };
+    x.onload = () => ok(x.status);
+    x.onerror = () => ok(0);
+    x.send(b);
+  });
+}
+const paraBase64 = (b) => new Promise((ok, erro) => { const r = new FileReader(); r.onload = () => ok(String(r.result).split(",")[1]); r.onerror = erro; r.readAsDataURL(b); });
+async function porPartes(url, b) {
+  const PARTE = 8 * 1024 * 1024;   // múltiplo de 256 KB, como o Drive exige
+  let feito = 0, falhas = 0;
+  try { const s = await api({ acao: "situacao", url, total: b.size }); if (s.pronto) return true; feito = s.recebido || 0; } catch (e) {}
+  while (feito < b.size) {
+    barra(feito / b.size);
+    const pedaco = b.slice(feito, Math.min(b.size, feito + PARTE));
+    try {
+      const d = await api({ acao: "parte", url, inicio: feito, total: b.size, dados: await paraBase64(pedaco) });
+      if (d.pronto) return true;
+      feito = d.recebido || (feito + pedaco.size); falhas = 0;
+    } catch (e) {
+      if (++falhas > 4) throw e;
+      $("#msg").textContent = "A internet oscilou. Tentando de novo…";
+      await new Promise((r) => setTimeout(r, 2500 * falhas));
+      try { const s = await api({ acao: "situacao", url, total: b.size }); if (s.pronto) return true; feito = s.recebido || 0; } catch (e2) {}
+    }
+  }
+  return true;
+}
+$("#enviar").onclick = async () => {
+  if (!blob || enviando) return;
+  const s = R.stories[atual], b = blob;
+  enviando = true; $("#enviar").disabled = true; $("#regravar").disabled = true;
+  $("#barra").hidden = false; barra(0); $("#msg").textContent = "Enviando " + nomeItem(s) + "… não feche esta página.";
+  try {
+    // mesmo vídeo de novo (envio que caiu): continua no mesmo link de envio
+    if (!envioAtual || envioAtual.blob !== b) {
+      const d = await api({ acao: "iniciar", c: COD, story: s.n, tipo: b.type || "video/mp4", tamanho: b.size, mic: micGravado, origem: location.origin });
+      envioAtual = { blob: b, url: d.url, direto: d.direto, nome: d.nome };
+    }
+    let pronto = false;
+    if (envioAtual.direto) { const st = await putDireto(envioAtual.url, b); pronto = st === 200 || st === 201; }
+    if (!pronto) pronto = await porPartes(envioAtual.url, b);
+    if (!pronto) throw new Error("não terminou");
+    const nomeArq = envioAtual.nome;
+    barra(1); envioAtual = null; blob = null;
+    feitos.add(atual); guardaFeitos();
+    // avisa a equipe por e-mail (não trava o cliente se falhar)
+    api({ acao: "pronto", c: COD, story: s.n, nome: nomeArq, tudo: R.stories.every((_, i) => feitos.has(i)) }).catch(() => {}); $("#tempo").textContent = "0:00";
+    const prox = R.stories.findIndex((_, i) => !feitos.has(i));
+    if (prox >= 0) { atual = prox; mostra(); $("#msg").textContent = nomeItem(s) + " enviada ✓  Agora: " + nomeItem(R.stories[prox]) + "."; }
+    else { mostra(); $("#msg").textContent = "Tudo enviado ✓  Obrigado! Nossa equipe já recebeu os " + R.stories.length + " vídeos."; }
+  } catch (e) {
+    $("#barra").hidden = true;
+    $("#msg").textContent = "Não terminou de enviar (" + (e.message || e) + "). Confira a internet e toque em Enviar de novo.";
+  } finally {
+    enviando = false; $("#enviar").disabled = false; $("#regravar").disabled = false;
+  }
+};
+
+// ---------------------------------------------------------------- abrir o roteiro do link
+(async () => {
+  const falha = (t, p) => { $("#avT").textContent = t; $("#avP").textContent = p; $("#ligar").hidden = true; };
+  if (!API) return falha("Gravador sem configuração", "Avise a equipe: falta o endereço de envio.");
+  if (!COD) return falha("Link incompleto", "Abra o link exatamente como a equipe mandou.");
+  try {
+    const r = await fetch(API + (API.includes("?") ? "&" : "?") + "acao=roteiro&cod=" + encodeURIComponent(COD));
+    const d = await r.json();
+    if (!d.ok) return falha("Roteiro indisponível", d.erro || "Peça um link novo para a equipe.");
+    R = d.roteiro; formato = R.formato === "inteira" ? "inteira" : "story";
+    document.title = (R.titulo ? R.titulo + " · " : "") + "TakePronto";
+    $("#avT").textContent = R.titulo || "Seu roteiro";
+    $("#avP").textContent = (R.cliente ? "Olá, " + R.cliente.split(" ")[0] + "! " : "") + "São " + R.stories.length + " " + (R.stories.length > 1 ? "partes" : "parte") +
+      ". O texto passa no alto da tela, perto da câmera. Grave, confira e toque em Enviar: o vídeo chega direto para a nossa equipe de edição.";
+    $("#ligar").disabled = false;
+    // aberto dentro do Instagram/Facebook/TikTok: avisa antes, porque a câmera quase sempre falha ali
+    if (DENTRO_DE_APP) { $("#avP").textContent += " Dica: se a câmera não abrir, abra este link no " + (IOS ? "Safari" : "Chrome") + "."; $("#copiar").hidden = false; }
+    const prox = R.stories.findIndex((_, i) => !feitos.has(i)); atual = prox >= 0 ? prox : 0;
+    mostra();
+  } catch (e) { falha("Sem conexão", "Confira a internet e abra o link de novo."); }
+})();
+</script>
+</body>
+</html>

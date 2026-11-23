@@ -7,11 +7,11 @@
 <title>TakePronto</title>
 <style>html,body{margin:0;height:100%;background:#05080f;color:#94a3b8;font:600 15px system-ui,-apple-system,sans-serif;display:grid;place-items:center}</style>
 <script>
-// link curto takepronto.github.io/<código>: o GitHub entrega esta página com código 404, e o Safari 27
+// link curto takepronto.com.br/<código>: o GitHub entrega esta página com código 404, e o Safari 27
 // não libera câmera em página de erro. Então só leva para a página normal (código 200) com ?c=<código>.
 (function () {
-  var cod = location.pathname.split("/").filter(function (s) { return s && s !== "404.html" && s !== "index.html"; }).pop() || "";
-  location.replace("/" + (cod ? "?c=" + encodeURIComponent(cod.toLowerCase()) : ""));
+  var cod = location.pathname.split("/").filter(function (s) { return s && s !== "404.html" && s !== "index.html" && s !== "gravar"; }).pop() || "";
+  location.replace(cod ? "/gravar/?c=" + encodeURIComponent(cod.toLowerCase()) : "/");
 })();
 </script>
 </head>
