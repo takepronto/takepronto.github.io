@@ -387,6 +387,18 @@ footer a:hover{color:var(--paper)}
 .lock{margin-top:40px;border:2px dashed var(--soft);border-radius:22px;padding:26px;display:flex;gap:18px;align-items:center}
 .lock .i{font-size:22px;color:var(--rec)}
 .lock p{color:var(--mut);margin:0}
+.rot{margin-top:30px;background:#fff;border-radius:24px;padding:30px 30px 26px;box-shadow:0 1px 0 var(--soft),0 24px 50px rgba(17,16,18,.10);max-width:820px}
+.rot-h{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:12px}
+.rot-tag{font-size:12px;font-weight:700;letter-spacing:.16em;color:var(--rec)}
+.rot-m{font-size:13px;color:var(--mut);font-weight:700}
+.rot-t{font-size:clamp(22px,3vw,30px);margin-bottom:18px}
+.rot-p{border-top:1px dashed var(--soft);padding:16px 0}
+.rot-n{font-family:'Archivo Black';font-size:15px;letter-spacing:.02em;color:var(--ink)}
+.rot-dica{font-size:14px;color:var(--mut);font-style:italic;margin:4px 0 6px}
+.rot-f{font-size:18px;line-height:1.5}
+.rot-f em{font-style:normal;background:var(--y);padding:0 4px;border-radius:4px;font-weight:700}
+.rot-ed{margin-top:8px;background:var(--ink);color:var(--paper);border-radius:16px;padding:16px 18px;font-size:15px}
+.rot-ed b{color:var(--y)}
 .solo{max-width:380px;margin:34px auto 0}
 .solo .vid{border-radius:22px;overflow:hidden;aspect-ratio:9/16;background:#000;box-shadow:0 0 0 3px var(--rec),0 30px 60px rgba(0,0,0,.45)}
 .solo video{width:100%;height:100%;object-fit:cover}
@@ -451,13 +463,56 @@ footer a:hover{color:var(--paper)}
   <div class="wrap">
     <div class="kick rv">E isso foi só a edição</div>
     <h2 class="rv">Agora imagine com um roteiro escrito para a WHR.</h2>
-    <p class="lead rv">Esse vídeo já estava gravado. Com a TakePronto, o conteúdo começa antes de a câmera ligar.</p>
-    <div class="tease">
-      <div class="card rv"><div class="q">01</div><h3>Roteiro com gancho</h3><p>A gente pesquisa o que está engajando em odontologia e escreve no jeito de falar de cada dentista da equipe.</p></div>
-      <div class="card rv"><div class="q">02</div><h3>Gravação pelo celular</h3><p>Um link com o roteiro rolando na tela. Cada dentista grava no consultório, entre um paciente e outro.</p></div>
-      <div class="card rv"><div class="q">03</div><h3>O que a câmera não mostra</h3><p>Implante, faceta e clareamento explicados em animação 2D e 3D, para o paciente entender em segundos.</p></div>
+    <p class="lead rv">Esse vídeo já estava gravado. Com a TakePronto, o conteúdo começa antes de a câmera ligar. Este é um exemplo do que chegaria para vocês:</p>
+    <div class="rot rv">
+      <div class="rot-h"><span class="rot-tag">ROTEIRO · EXEMPLO</span><span class="rot-m">Reels · até 60 s · 4 partes</span></div>
+      <h3 class="rot-t">Perdeu um dente? 3 coisas que acontecem se você não repõe</h3>
+      <div class="rot-p"><div class="rot-n">Parte 1 · Gancho</div><p class="rot-dica">Olhando para a câmera, com o letreiro da WHR atrás</p><p class="rot-f">"Perdeu um dente e acha que pode deixar <em>pra depois</em>? Olha o que acontece com a sua boca nos meses seguintes."</p></div>
+      <div class="rot-p"><div class="rot-n">Parte 2</div><p class="rot-dica">Contando nos dedos: 1, 2</p><p class="rot-f">"1: os dentes do lado começam a <em>se inclinar</em> para o espaço vazio. 2: o dente de cima <em>desce</em>, porque perdeu o par da mordida."</p></div>
+      <div class="rot-p"><div class="rot-n">Parte 3</div><p class="rot-dica">Mais sério, um pouco mais perto da câmera</p><p class="rot-f">"3: o <em>osso</em> daquela região vai diminuindo com o tempo, e isso pode deixar a reposição mais complexa depois."</p></div>
+      <div class="rot-p"><div class="rot-n">Parte 4 · Chamada</div><p class="rot-dica">Sorrindo, apontando para baixo</p><p class="rot-f">"Por isso, a avaliação é o primeiro passo. <em>Comenta IMPLANTE</em> que a gente te explica como funciona aqui na WHR."</p></div>
+      <div class="rot-ed"><b>Na edição:</b> o dente se inclinando e o osso diminuindo em animação 3D, a lista 1, 2, 3 entrando na tela, legenda nas cores da WHR e a chamada "Comenta IMPLANTE" em destaque.</div>
     </div>
-    <div class="lock rv"><span class="i">●</span><p>Quer ver como seria o primeiro vídeo da WHR feito do zero? É só chamar a gente no WhatsApp.</p></div>
+  </div>
+</section>
+
+<section id="gravador" class="dark">
+  <div class="wrap">
+    <div class="kick rv">O gravador</div>
+    <h2 class="rv">O roteiro aparece assim, no celular.</h2>
+    <p class="lead rv">Cada dentista recebe um link no WhatsApp. Abre no navegador, lê o roteiro no alto da tela, perto da câmera, e grava entre um paciente e outro.</p>
+    <div class="feat">
+      <div class="phone rv"><div class="scr" style="background-image:url(../midia/whr/gravador.jpg)"><div class="ui">
+        <div class="top"><div class="bar"><b>TakePronto</b><span>Parte 2 de 4</span></div>
+          <div class="txt">1: os dentes do lado começam a <em>se inclinar</em> para o espaço vazio. 2: o dente de cima <em>desce</em>, porque perdeu o par da mordida.</div>
+          <div class="chips"><span>A−</span><span>A+</span><span>Velocidade</span><span class="on">📱 Do celular</span><span>🎙 Externo</span></div></div>
+        <div class="time">● 0:09</div>
+        <div class="bot"><span class="b">Regravar</span><span class="recb"></span><span class="b send">Enviar</span></div>
+      </div></div></div>
+      <ul>
+        <li class="rv"><b>Roteiro no alto da tela</b>Rola na velocidade da fala, com letra ajustável. O olhar fica na câmera.</li>
+        <li class="rv"><b>Palavras-chave em <em>destaque</em></b>Fica fácil dar a ênfase certa na hora de falar.</li>
+        <li class="rv"><b>Errou? Não tem problema</b>Regrava só aquela parte. A gente corta erros, pausas e respirações.</li>
+        <li class="rv"><b>Sem aplicativo e sem conta</b>Funciona no iPhone e no Android, pelo navegador.</li>
+        <li class="rv"><b>Envio direto para a nossa equipe</b>O vídeo chega inteiro, na qualidade original. Nada de arquivo pesado no WhatsApp.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="processo">
+  <div class="wrap">
+    <div class="kick rv">Como seria com a gente</div>
+    <h2 class="rv">Do tema ao Reels no ar, passo a passo.</h2>
+    <div class="steps">
+      <div class="step rv"><div class="n">1</div><div><h3>Conversa sobre a WHR</h3><p>A gente entende os tratamentos que vocês querem destacar, o público da clínica e o jeito de falar de cada dentista.</p></div></div>
+      <div class="step rv"><div class="n">2</div><div><h3>Pauta e roteiro</h3><p>A nossa equipe pesquisa o que está engajando em odontologia e escreve o roteiro com gancho, em partes curtas, respeitando as regras de publicidade do CFO. Vocês aprovam antes.</p><span class="tag2">Até 2 ajustes por roteiro</span></div></div>
+      <div class="step rv"><div class="n">3</div><div><h3>Link no WhatsApp</h3><p>Cada dentista recebe um link só seu, com o roteiro e as dicas de gravação: luz no rosto, lugar silencioso, celular em pé.</p></div></div>
+      <div class="step rv"><div class="n">4</div><div><h3>Gravação no consultório</h3><p>Lendo o teleprompter, quando puder, sem dia marcado e sem equipe de filmagem na clínica. Toca em Enviar e o vídeo chega direto para a gente.</p></div></div>
+      <div class="step rv"><div class="n">5</div><div><h3>Edição no estilo da WHR</h3><p>Cortes, legenda nas cores do letreiro, animação 2D e 3D de implante, faceta e clareamento, som tratado, capa e texto da publicação.</p></div></div>
+      <div class="step rv"><div class="n">6</div><div><h3>Vocês aprovam e postam</h3><p>Nada vai para o ar sem o ok de vocês. O vídeo chega pronto para publicar.</p></div></div>
+    </div>
+    <div class="lock rv"><span class="i">●</span><p>Quer ver o primeiro vídeo da WHR feito do zero, com roteiro nosso? É só chamar a gente no WhatsApp.</p></div>
   </div>
 </section>
 
