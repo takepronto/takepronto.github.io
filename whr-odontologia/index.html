@@ -387,6 +387,9 @@ footer a:hover{color:var(--paper)}
 .lock{margin-top:40px;border:2px dashed var(--soft);border-radius:22px;padding:26px;display:flex;gap:18px;align-items:center}
 .lock .i{font-size:22px;color:var(--rec)}
 .lock p{color:var(--mut);margin:0}
+.solo{max-width:380px;margin:34px auto 0}
+.solo .vid{border-radius:22px;overflow:hidden;aspect-ratio:9/16;background:#000;box-shadow:0 0 0 3px var(--rec),0 30px 60px rgba(0,0,0,.45)}
+.solo video{width:100%;height:100%;object-fit:cover}
 </style>
 </head>
 <body>
@@ -431,6 +434,16 @@ footer a:hover{color:var(--paper)}
         <div class="rv"><span class="ic">♪</span><b>Áudio tratado</b><span>Voz equilibrada do começo ao fim, com efeitos nas animações</span></div>
       </div>
     </div>
+  </div>
+</section>
+
+
+<section class="dark" id="explicado" style="padding-top:20px">
+  <div class="wrap">
+    <div class="center"><div class="kick rv">O que mudou, explicado</div>
+    <h2 class="rv">Assista em 50 segundos.</h2>
+    <p class="lead rv">A nossa narradora mostra, parte por parte, cada escolha da edição.</p></div>
+    <div class="solo rv"><div class="vid"><video src="../midia/whr/whr-comparativo.mp4" poster="../midia/whr/comparativo.jpg" controls playsinline preload="none"></video></div></div>
   </div>
 </section>
 
