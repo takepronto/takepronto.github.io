@@ -351,6 +351,25 @@ footer a:hover{color:var(--paper)}
 @media (max-width:820px){.fcols{grid-template-columns:1fr 1fr;gap:30px}.fbrand{grid-column:1/-1}.fcta .wrap{flex-direction:column;align-items:flex-start}}
 @media (max-width:480px){.fcols{grid-template-columns:1fr}}
 
+
+
+
+/* clientes lado a lado */
+.cgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:36px}
+.ccard{background:var(--ink2);border:1px solid #2c2a2f;border-radius:20px;padding:16px}
+.ccard header b{display:block;font-family:'Archivo Black';font-size:17px;letter-spacing:-.01em}
+.ccard header span{display:block;font-size:13px;color:var(--mutd);margin-top:2px}
+.cvids{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px}
+.cvids>div{display:flex;flex-direction:column;align-items:center;gap:6px}
+.cvids .tag{font-size:10px;padding:2px 8px}
+.cvids .vid{width:100%;border-radius:12px;box-shadow:none}
+.cchips{list-style:none;display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}
+.cchips li{font-size:12px;font-weight:700;background:#2a2830;border-radius:20px;padding:4px 10px}
+.cchips li:first-child{background:#2a1513;color:#ffb3ad}
+.cnote{text-align:center;color:var(--mutd);font-size:14px;margin-top:22px}
+@media (max-width:1100px){.cgrid{grid-template-columns:1fr 1fr}}
+@media (max-width:640px){.cgrid{grid-template-columns:1fr}}
+
 /* celular */
 @media (max-width:820px){
   section{padding:64px 0}
@@ -532,41 +551,42 @@ footer a:hover{color:var(--paper)}
   <div class="wrap">
     <div class="center"><div class="kick rv">Nossos clientes · Antes e depois</div>
     <h2 class="rv">A mesma gravação, outro vídeo.</h2>
-    <p class="lead rv">Dê o play e compare. À esquerda, como foi postado. À direita, a edição da nossa equipe.</p></div>
-
-    <div class="client">
-      <div class="chead rv"><div class="nm">Dra. Maisa Kviecinski</div><div class="sub">Nutrologia · "CrossFit x Hyrox"</div></div>
-      <div class="ad rv">
-        <div class="col a"><span class="tag">Antes</span><div class="vid"><video src="midia/maisa-antes.mp4" poster="midia/img/ma0.jpg" controls playsinline preload="none"></video></div></div>
-        <div class="arrow">→</div>
-        <div class="col b"><span class="tag r">Depois</span><div class="vid"><video src="midia/maisa-depois.mp4" poster="midia/img/ma1.jpg" controls playsinline preload="none"></video></div></div>
-      </div>
-      <div class="did">
-        <div class="rv"><span class="ic">≡</span><b>Capítulos na tela</b><span>O vídeo ganha partes I, II, III</span></div>
-        <div class="rv"><span class="ic">▤</span><b>Página de revista</b><span>Entra no meio e organiza a ideia</span></div>
-        <div class="rv"><span class="ic">Aa</span><b>Legenda palavra a palavra</b><span>Ninguém perde nada sem som</span></div>
-        <div class="rv"><span class="ic">✂</span><b>Pausas e erros cortados</b><span>Ritmo do começo ao fim</span></div>
-        <div class="rv"><span class="ic">♪</span><b>Áudio tratado</b><span>Voz limpa e no volume certo</span></div>
-        <div class="rv"><span class="ic">▣</span><b>Capa e legenda</b><span>Pronto para postar</span></div>
-      </div>
+    <p class="lead rv">Dê o play e compare. Em cada cliente, o vídeo como foi postado e a edição da nossa equipe.</p></div>
+    <div class="cgrid">
+      <article class="ccard rv">
+        <header><b>Dr. Juarez Nascimento</b><span>Fisioterapia esportiva · "Lesão grave"</span></header>
+        <div class="cvids">
+          <div><span class="tag">Antes</span><div class="vid"><video src="midia/juarez/juarez-antes.mp4" poster="midia/juarez/antes.jpg" controls playsinline preload="none"></video></div></div>
+          <div><span class="tag r">Depois</span><div class="vid"><video src="midia/juarez/juarez-depois.mp4" poster="midia/juarez/depois.jpg" controls playsinline preload="none"></video></div></div>
+        </div>
+        <ul class="cchips"><li>Gancho no 1º segundo</li><li>Lesões em 3D</li><li>Gráfico e checklist</li><li>Legenda nova</li></ul>
+      </article>
+      <article class="ccard rv">
+        <header><b>Dr. Giuseppe</b><span>Ortopedia · "Inflamação"</span></header>
+        <div class="cvids">
+          <div><span class="tag">Antes</span><div class="vid"><video src="midia/giuseppe-antes.mp4" poster="midia/img/gi0.jpg" controls playsinline preload="none"></video></div></div>
+          <div><span class="tag r">Depois</span><div class="vid"><video src="midia/giuseppe-depois.mp4" poster="midia/img/gi1.jpg" controls playsinline preload="none"></video></div></div>
+        </div>
+        <ul class="cchips"><li>Joelho em 3D</li><li>Cores do feed</li><li>Destaques na hora certa</li><li>Listas animadas</li></ul>
+      </article>
+      <article class="ccard rv">
+        <header><b>Dra. Maisa Kviecinski</b><span>Nutrologia · "CrossFit x Hyrox"</span></header>
+        <div class="cvids">
+          <div><span class="tag">Antes</span><div class="vid"><video src="midia/maisa-antes.mp4" poster="midia/img/ma0.jpg" controls playsinline preload="none"></video></div></div>
+          <div><span class="tag r">Depois</span><div class="vid"><video src="midia/maisa-depois.mp4" poster="midia/img/ma1.jpg" controls playsinline preload="none"></video></div></div>
+        </div>
+        <ul class="cchips"><li>Capítulos na tela</li><li>Página de revista</li><li>Legenda palavra a palavra</li><li>Pausas cortadas</li></ul>
+      </article>
+      <article class="ccard rv">
+        <header><b>Júnior Carneiro</b><span>Fisioterapia · Close Friends "Carreira e mercado"</span></header>
+        <div class="cvids">
+          <div><span class="tag">Antes</span><div class="vid"><video src="midia/junior/junior-antes.mp4" poster="midia/junior/antes.jpg" controls playsinline preload="none"></video></div></div>
+          <div><span class="tag r">Depois</span><div class="vid"><video src="midia/junior/junior-depois.mp4" poster="midia/junior/depois.jpg" controls playsinline preload="none"></video></div></div>
+        </div>
+        <ul class="cchips"><li>Tela cheia, sem moldura</li><li>Cartões na hora da fala</li><li>Cores da marca</li><li>Pausas cortadas</li></ul>
+      </article>
     </div>
-
-    <div class="client">
-      <div class="chead rv"><div class="nm">Dr. Giuseppe</div><div class="sub">Ortopedia · "Inflamação"</div></div>
-      <div class="ad rv">
-        <div class="col a"><span class="tag">Antes</span><div class="vid"><video src="midia/giuseppe-antes.mp4" poster="midia/img/gi0.jpg" controls playsinline preload="none"></video></div></div>
-        <div class="arrow">→</div>
-        <div class="col b"><span class="tag r">Depois</span><div class="vid"><video src="midia/giuseppe-depois.mp4" poster="midia/img/gi1.jpg" controls playsinline preload="none"></video></div></div>
-      </div>
-      <div class="did">
-        <div class="rv"><span class="ic">3D</span><b>Joelho em 3D</b><span>Mostra o que a câmera não mostra</span></div>
-        <div class="rv"><span class="ic">◐</span><b>Cores do feed</b><span>A identidade do perfil dele</span></div>
-        <div class="rv"><span class="ic">✦</span><b>Destaques na hora certa</b><span>A palavra aparece quando ele fala</span></div>
-        <div class="rv"><span class="ic">☰</span><b>Listas animadas</b><span>Passo a passo na tela</span></div>
-        <div class="rv"><span class="ic">♪</span><b>Áudio tratado</b><span>Voz limpa e no volume certo</span></div>
-        <div class="rv"><span class="ic">▣</span><b>Capa e legenda</b><span>Pronto para postar</span></div>
-      </div>
-    </div>
+    <p class="cnote rv">Em todos: áudio tratado, pausas e erros cortados, capa e legenda prontas para postar.</p>
   </div>
 </section>
 
@@ -789,6 +809,8 @@ const RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
   const upd=()=>{const heroOut=hero.getBoundingClientRect().bottom<0,finVis=fin.getBoundingClientRect().top<innerHeight*.8;fab.classList.toggle('show',heroOut&&!finVis)};
   addEventListener('scroll',upd,{passive:true});upd();
 })();
+
+
 
 // relógio do REC
 const tc=document.getElementById('tc');let f=14*30+8;
