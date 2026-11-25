@@ -167,7 +167,7 @@ function paraRevisao() {
   if (u && u.startsWith("blob:")) { try { URL.revokeObjectURL(u); } catch (e) {} }
 }
 function modo(m) {
-  if (m !== "depois") paraRevisao(); else $("#rev").muted = false;
+  if (m !== "depois") { paraRevisao(); religaMic(); } else { $("#rev").muted = false; $("#rev").volume = 1; }
   $("#gravar").hidden = m !== "gravar"; $("#ajustes").hidden = m === "depois";
   $("#depois").hidden = m !== "depois"; $("#rev").hidden = m !== "depois"; $("#tp").hidden = m === "depois";
   if (stream) { $("#zoomLinha").hidden = m !== "gravar"; $("#micLinha").hidden = m !== "gravar"; $("#micDica").hidden = m !== "gravar" || !$("#micDica").textContent; }
@@ -394,9 +394,11 @@ setInterval(() => {
 }, 700);
 
 // ---------------------------------------------------------------- nível e ganho automático
-// o iPhone entrega o som cru bem baixo: o ganho sobe sozinho até a fala chegar perto de -6 dB, com limitador de segurança
-let somPronto = false, actx = null, analisador = null, analisadorPre = null, fonteMic = null, pico = -90, picoMaxPre = -90, ganhoNo = null, limitador = null, destinoSom = null, ganhoDb = 20;
-function aplicaGanho() { if (ganhoNo) { try { ganhoNo.gain.setTargetAtTime(Math.pow(10, ganhoDb / 20), actx.currentTime, 0.08); } catch (e) { ganhoNo.gain.value = Math.pow(10, ganhoDb / 20); } } }
+// o som cru do celular chega baixo: o ganho segue o volume MÉDIO da fala (não o pico, que uma batida derrubava),
+// depois um compressor deixa a voz por igual e um limitador segura os estouros. Alvo: perto de -14 LUFS, alto e claro.
+let somPronto = false, actx = null, analisador = null, analisadorPre = null, fonteMic = null, pico = -90, ganhoNo = null, compressor = null, reforco = null, limitador = null, destinoSom = null, ganhoDb = 24, falaDb = -46;
+const ALVO_FALA = -19, GANHO_MAX = 42;
+function aplicaGanho(rapido) { if (ganhoNo) { const g = Math.pow(10, ganhoDb / 20); try { ganhoNo.gain.setTargetAtTime(g, actx.currentTime, rapido ? 0.05 : 0.4); } catch (e) { ganhoNo.gain.value = g; } } }
 function medidor() {
   try {
     if (!actx) {
@@ -404,39 +406,47 @@ function medidor() {
       const AC = window.AudioContext || window.webkitAudioContext;
       try { actx = taxa ? new AC({ sampleRate: taxa }) : new AC(); } catch (e) { actx = new AC(); }
       analisador = actx.createAnalyser(); analisador.fftSize = 2048;
-      ganhoNo = actx.createGain();
-      limitador = actx.createDynamicsCompressor();
-      limitador.threshold.value = -1.5; limitador.knee.value = 0; limitador.ratio.value = 20; limitador.attack.value = 0.001; limitador.release.value = 0.05;
       analisadorPre = actx.createAnalyser(); analisadorPre.fftSize = 2048;
+      ganhoNo = actx.createGain();
+      compressor = actx.createDynamicsCompressor();
+      compressor.threshold.value = -20; compressor.knee.value = 6; compressor.ratio.value = 3; compressor.attack.value = 0.004; compressor.release.value = 0.25;
+      reforco = actx.createGain(); reforco.gain.value = Math.pow(10, -2 / 20);   // o compressor do navegador já soma bastante ganho sozinho
+      limitador = actx.createDynamicsCompressor();
+      // limiar -6: com o reforço automático do navegador, o pico fica perto de -1,5 dB
+      limitador.threshold.value = -6; limitador.knee.value = 0; limitador.ratio.value = 20; limitador.attack.value = 0.001; limitador.release.value = 0.08;
       destinoSom = actx.createMediaStreamDestination();
-      ganhoNo.connect(limitador); limitador.connect(destinoSom); limitador.connect(analisador);
+      ganhoNo.connect(compressor); compressor.connect(reforco); reforco.connect(limitador);
+      limitador.connect(destinoSom); limitador.connect(analisador);
       desenhaNivel();
     }
     if (actx.state !== "running") { try { actx.resume(); } catch (e) {} }
     somPronto = false;
-    if (fonteMic) fonteMic.disconnect();
+    if (fonteMic) { try { fonteMic.disconnect(); } catch (e) {} }
     fonteMic = actx.createMediaStreamSource(new MediaStream(stream.getAudioTracks()));
     // receptores sem fio costumam mandar a voz num canal só: junta os dois em mono
     const sep = actx.createChannelSplitter(2), mono = actx.createGain();
     mono.channelCount = 1; mono.channelCountMode = "explicit"; mono.channelInterpretation = "speakers";
     fonteMic.connect(sep); sep.connect(mono, 0); sep.connect(mono, 1); mono.connect(ganhoNo); mono.connect(analisadorPre);
-    picoMaxPre = -90; ganhoDb = 20;
-    aplicaGanho(); somPronto = true;
+    aplicaGanho(true); somPronto = true;
   } catch (e) {}
 }
 function desenhaNivel() {
   const buf = new Float32Array(analisador.fftSize);
-  let ultimoAjuste = 0;
+  let piso = -70, ultimoAjuste = 0;
   const loop = () => {
+    // volume médio (RMS) do som cru, antes do ganho
     analisadorPre.getFloatTimeDomainData(buf);
-    let mp = 0; for (let i = 0; i < buf.length; i++) mp = Math.max(mp, Math.abs(buf[i]));
-    const picoPre = mp > 0 ? 20 * Math.log10(mp) : -90;
-    picoMaxPre = Math.max(picoPre, picoMaxPre - 0.003);
-    if (picoMaxPre > -60 && Date.now() - ultimoAjuste > 120) {
+    let q = 0; for (let i = 0; i < buf.length; i++) q += buf[i] * buf[i];
+    const rms = q > 0 ? 10 * Math.log10(q / buf.length) : -100;
+    piso = rms < piso ? piso + (rms - piso) * 0.2 : piso + 0.01;          // ruído de fundo: cai rápido, sobe devagar
+    const ehFala = rms > piso + 9 && rms > -72;
+    if (ehFala) falaDb += (rms - falaDb) * (rms > falaDb ? 0.03 : 0.015);  // média da fala, sem se assustar com uma batida
+    if (Date.now() - ultimoAjuste > 150) {
       ultimoAjuste = Date.now();
-      const alvo = Math.max(0, Math.min(40, -6 - picoMaxPre));
-      if (alvo < ganhoDb - 0.5) { ganhoDb = Math.round(alvo); aplicaGanho(); }
-      else if (!rec && alvo > ganhoDb + 0.5) { ganhoDb = Math.min(Math.round(alvo), ganhoDb + 1); aplicaGanho(); }
+      const alvo = Math.max(0, Math.min(GANHO_MAX, ALVO_FALA - falaDb, -36 - piso));
+      // gravando: corrige devagar (0,5 dB por vez) para não dar "bombeada"; parado: acompanha mais rápido
+      const passoMax = rec ? 0.5 : 2;
+      if (Math.abs(alvo - ganhoDb) > 0.5) { ganhoDb += Math.max(-passoMax, Math.min(passoMax, alvo - ganhoDb)); aplicaGanho(false); }
     }
     analisador.getFloatTimeDomainData(buf);
     let m = 0; for (let i = 0; i < buf.length; i++) m = Math.max(m, Math.abs(buf[i]));
@@ -447,6 +457,18 @@ function desenhaNivel() {
     requestAnimationFrame(loop);
   };
   loop();
+}
+// revisão alta: no iPhone (e em vários Android), com o microfone aberto o som sai baixinho, pelo alto-falante de chamada.
+// Depois de gravar, o microfone é desligado para a revisão tocar no alto-falante normal, e volta sozinho para a próxima gravação.
+function desligaMic() { if (stream) stream.getAudioTracks().forEach((t) => { try { t.stop(); } catch (e) {} }); }
+async function religaMic() {
+  if (!stream || stream.getAudioTracks().some((t) => t.readyState === "live")) return;
+  let som = null;
+  try { som = await navigator.mediaDevices.getUserMedia({ audio: somPedido() }); }
+  catch (e) { try { som = await navigator.mediaDevices.getUserMedia({ audio: (() => { const a = somPedido(); delete a.deviceId; return a; })() }); } catch (e2) { try { som = await navigator.mediaDevices.getUserMedia({ audio: true }); } catch (e3) { som = null; } } }
+  if (!som) { $("#micDica").textContent = "Toque em “Do celular” para ligar o microfone de novo."; $("#micDica").hidden = false; return; }
+  stream = new MediaStream([...stream.getVideoTracks(), ...som.getAudioTracks()]);
+  medidor();
 }
 
 // ---------------------------------------------------------------- enquadramento 9:16 e zoom
@@ -511,6 +533,7 @@ $("#rec").onclick = async () => {
   if (!window.MediaRecorder && !rec) { $("#msg").textContent = "Este navegador não grava vídeo. " + (IOS ? "Atualize o iPhone (iOS 14.3 ou mais novo) e use o Safari." : "Use o Chrome atualizado."); diag("ERRO sem MediaRecorder"); return; }
   if (rec) { rec.stop(); return; }
   paraRevisao();
+  await religaMic();
   y = 0; $("#txt").style.transform = "translateY(0)";
   $("#micDica").hidden = true;
   await contagem();
@@ -527,10 +550,12 @@ $("#rec").onclick = async () => {
     if (formato === "story") fonte.getVideoTracks().forEach((t) => t.stop());
     clearInterval(relogio); rola(false); $("#rec").classList.remove("gravando"); $("#tempo").classList.remove("vermelho");
     blob = new Blob(pedacos, { type: (tipo || "video/mp4").split(";")[0] }); rec = null;
-    $("#rev").src = URL.createObjectURL(blob); modo("depois");
+    desligaMic();
+    const rv = $("#rev"); rv.src = URL.createObjectURL(blob); rv.volume = 1; modo("depois");
+    try { rv.muted = false; rv.play().catch(() => {}); } catch (e) {}
     $("#msg").textContent = "Confira e envie. Tamanho: " + (blob.size / 1e6).toFixed(1) + " MB";
   };
-  { const f = stream.getAudioTracks()[0]; micGravado = (f ? f.label : "sem microfone") + " | ganho +" + ganhoDb + " dB | " + (somOk ? "com ganho" : "som direto"); }
+  { const f = stream.getAudioTracks()[0]; micGravado = (f ? f.label : "sem microfone") + " | ganho +" + Math.round(ganhoDb) + " dB | " + (somOk ? "com ganho" : "som direto"); }
   rec.start(1000); t0 = Date.now(); rola(true);
   $("#rec").classList.add("gravando"); $("#tempo").classList.add("vermelho");
   $("#msg").textContent = "Gravando. Toque no texto para pausar a rolagem.";
