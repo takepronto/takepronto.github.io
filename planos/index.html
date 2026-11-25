@@ -1,0 +1,360 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Planos · TakePronto</title>
+<meta name="robots" content="noindex,nofollow">
+<meta name="description" content="Pacotes TakePronto: roteiro, gravação pelo celular e edição. Pagamento único, sem mensalidade.">
+<meta property="og:title" content="Planos TakePronto">
+<meta property="og:description" content="Pacotes fechados, pagos uma vez. Sem mensalidade. Entrega completa em até 45 dias.">
+<meta property="og:image" content="https://takepronto.com.br/midia/cartao.jpg?v=3">
+<meta name="theme-color" content="#111012">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#111012;--ink2:#1C1B1E;--paper:#F3EEE5;--rec:#FF3B2F;--soft:#E6DFD3;--mut:#6F6A63;--mutd:#A9A39A;--ok:#1FBF75;--y:#FFD23F}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--paper);color:var(--ink);font-family:'Space Grotesk',system-ui,sans-serif;font-size:17px;line-height:1.5;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1180px;margin:0 auto;padding:0 20px}
+section{padding:80px 0}
+.dark{background:var(--ink);color:var(--paper)}
+h1,h2,h3,.big{font-family:'Archivo Black',sans-serif;letter-spacing:-.02em;line-height:1}
+h2{font-size:clamp(30px,4.6vw,48px);margin-bottom:14px}
+.kick{font-size:13px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--rec);margin-bottom:12px;display:flex;align-items:center;gap:10px}
+.kick:before{content:"";width:9px;height:9px;border-radius:50%;background:var(--rec)}
+.lead{font-size:clamp(17px,2vw,20px);line-height:1.45;max-width:720px;color:var(--mut)}
+.dark .lead{color:var(--mutd)}
+.y{color:var(--y)}.r{color:var(--rec)}
+.tp{display:inline-flex;align-items:stretch;border:.09em solid #111;border-radius:.14em;overflow:hidden;background:var(--y);vertical-align:middle;line-height:1;font-size:20px;text-decoration:none}
+.tp .st{width:1em;flex:none;background:repeating-linear-gradient(-45deg,#111 0 .2em,var(--y) .2em .44em);border-right:.06em solid #111}
+.tp .tx{font-family:'Archivo Black',sans-serif;color:#111;line-height:.9;padding:.2em .32em .16em;letter-spacing:-.01em;white-space:nowrap}
+.rec{display:inline-flex;align-items:center;gap:8px;border:1.5px solid currentColor;border-radius:40px;padding:6px 14px;font-size:12px;font-weight:700;letter-spacing:.16em}
+.rec:before{content:"";width:8px;height:8px;border-radius:50%;background:var(--rec)}
+
+/* topo */
+.nav{position:sticky;top:0;z-index:50;background:rgba(17,16,18,.94);backdrop-filter:blur(8px);color:var(--paper)}
+.nav .wrap{display:flex;justify-content:space-between;align-items:center;height:62px}
+.nav .tp{font-size:13px}
+.nav a.cta{color:var(--paper);font-size:14px;font-weight:700;text-decoration:none;border:1.5px solid #3a3836;border-radius:30px;padding:8px 16px}
+.hero{padding:70px 0 64px;background:radial-gradient(110% 90% at 85% 80%,#2a1513 0%,#171214 45%,#111012 80%)}
+.hero h1{font-size:clamp(42px,7vw,78px);margin:22px 0 18px;max-width:900px}
+.facts{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:40px}
+.facts div{border:1px solid #3a3836;border-radius:16px;padding:18px;background:rgba(17,16,18,.55)}
+.facts b{display:block;font-family:'Archivo Black';font-size:20px;color:var(--y);letter-spacing:-.01em}
+.facts span{font-size:14px;color:var(--mutd)}
+
+/* seletor */
+.tabs{display:inline-flex;background:#fff;border-radius:40px;padding:5px;gap:4px;margin-top:26px;flex-wrap:wrap}
+.tabs button{font:inherit;font-weight:700;font-size:15px;border:0;background:transparent;border-radius:30px;padding:10px 18px;cursor:pointer;color:var(--ink)}
+.tabs button.on{background:var(--ink);color:var(--paper)}
+
+/* cartões de plano */
+.plans{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:30px;align-items:stretch}
+.plan{background:#fff;border-radius:22px;padding:28px 26px;display:flex;flex-direction:column;position:relative;border:2px solid transparent}
+.plan.hot{background:var(--ink);color:var(--paper);border-color:var(--rec);box-shadow:0 24px 50px rgba(17,16,18,.25)}
+.badge{position:absolute;top:-13px;left:26px;background:var(--rec);color:#fff;font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;border-radius:20px;padding:5px 12px}
+.plan h3{font-size:26px}
+.plan .for{font-size:14px;color:var(--mut);margin-top:6px;min-height:42px}
+.plan.hot .for{color:var(--mutd)}
+.price{margin-top:18px;display:flex;align-items:baseline;gap:6px}
+.price small{font-size:15px;font-weight:700}
+.price b{font-family:'Archivo Black';font-size:44px;letter-spacing:-.03em;line-height:1}
+.once{font-size:13px;color:var(--mut);margin-top:4px}
+.plan.hot .once{color:var(--mutd)}
+.per{display:inline-block;margin-top:12px;font-size:13px;font-weight:700;background:var(--paper);color:var(--ink);border-radius:20px;padding:4px 12px}
+.plan.hot .per{background:#2a1513;color:#ffb3ad}
+.plan ul{list-style:none;display:grid;gap:9px;margin:22px 0 24px;font-size:15px}
+.plan li{padding-left:24px;position:relative}
+.plan li:before{content:"✓";position:absolute;left:0;color:var(--ok);font-weight:700}
+.plan li b{font-weight:700}
+.plan .go{margin-top:auto;display:flex;justify-content:center;align-items:center;gap:8px;text-decoration:none;font-weight:700;border-radius:40px;padding:14px 18px;background:var(--ink);color:var(--paper)}
+.plan.hot .go{background:var(--rec);color:#fff}
+.plan .go svg{width:18px;height:18px}
+
+/* tabela de vídeos */
+
+/* adicionais e regras */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:30px}
+.card{background:#fff;border-radius:18px;padding:24px}
+.dark .card{background:var(--ink2)}
+.card h3{font-size:19px;margin-bottom:6px}
+.card p{font-size:15px;color:var(--mut)}
+.dark .card p{color:var(--mutd)}
+.card .val{font-family:'Archivo Black';font-size:24px;margin-top:10px}
+.inc{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:30px}
+.inc div{background:var(--ink2);border-radius:16px;padding:20px}
+.inc .ic{width:38px;height:38px;border-radius:11px;background:var(--rec);color:#fff;display:grid;place-items:center;font-weight:700;margin-bottom:12px}
+.inc b{display:block;font-family:'Archivo Black';font-size:16px;margin-bottom:4px}
+.inc span{font-size:14px;color:var(--mutd)}
+.rules{list-style:none;display:grid;gap:12px;margin-top:26px;max-width:860px}
+.rules li{background:#fff;border-radius:14px;padding:14px 18px 14px 46px;position:relative;font-size:15.5px}
+.rules li:before{content:"!";position:absolute;left:16px;top:14px;width:20px;height:20px;border-radius:50%;background:var(--ink);color:var(--y);font-weight:700;font-size:12px;display:grid;place-items:center}
+.wa{display:inline-flex;align-items:center;gap:12px;background:#25D366;color:#0b2e16;text-decoration:none;font-weight:700;font-size:19px;border-radius:50px;padding:18px 30px;margin-top:28px}
+.wa svg{width:26px;height:26px}
+footer{background:#0b0a0c;color:#7d776f;font-size:13px;padding:24px 0}
+footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+footer a{color:inherit}
+.post-nota{display:flex;gap:16px;align-items:flex-start;margin-top:26px;background:var(--ink);color:var(--paper);border-radius:20px;padding:22px 26px}
+.post-nota .ast{font-family:'Archivo Black';font-size:40px;line-height:.8;color:var(--y)}
+.post-nota b{font-family:'Archivo Black';font-size:18px;color:var(--y)}
+.post-nota div{font-size:16px;line-height:1.5}
+.post-nota span{display:block;margin-top:6px;color:#C9C2B7}
+.post-nota strong{color:var(--paper)}
+.post-nota.dupla{display:grid;grid-template-columns:1fr 1fr;gap:26px}
+.post-nota.dupla>div{position:relative;padding-left:44px}
+.post-nota.dupla .ast{position:absolute;left:0;top:2px;font-size:30px}
+.post-nota.dupla b{display:block;font-size:17px}
+.cmp{margin-top:30px;overflow-x:auto;border-radius:20px;background:var(--ink2)}
+.cmp table{width:100%;border-collapse:collapse;min-width:720px}
+.cmp th,.cmp td{padding:14px 16px;text-align:center;border-bottom:1px solid #2c2a2f;font-size:15px}
+.cmp thead th{font-family:'Archivo Black';font-size:15px;color:var(--paper);vertical-align:bottom}
+.cmp thead th small{display:block;font-family:'Space Grotesk';font-weight:500;font-size:11.5px;color:var(--mutd);margin-top:3px}
+.cmp tbody th{text-align:left;font-weight:400}
+.cmp tbody th b{display:block;color:var(--paper);font-size:15px}
+.cmp tbody th span{font-size:12.5px;color:var(--mutd)}
+.cmp td.s{color:var(--ok);font-weight:700;font-size:18px}
+.cmp td.n{color:#5a5650;font-size:18px}
+.cmp tr.quem td em{font-style:normal;font-weight:700;background:#2a2830;border-radius:20px;padding:4px 12px;font-size:13px}
+.cmp tr.quem td em.nos{background:#2a1513;color:#ffb3ad}
+.cmp tbody tr:last-child th,.cmp tbody tr:last-child td{border-bottom:0}
+.cmp-nota{color:var(--mutd);font-size:14px;margin-top:14px}
+.x3{font-size:13.5px;margin-top:2px;color:var(--ink)}
+.x3 b{font-weight:700}
+.plan.hot .x3{color:var(--paper)}
+.pick{display:flex;align-items:center;gap:8px;font-size:14px;font-weight:700;color:var(--rec);margin-top:22px}
+.pick span{font-size:18px;animation:tap 1.6s ease-in-out infinite}
+@keyframes tap{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+.mods{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:12px}
+.mods button{font:inherit;text-align:left;color:var(--ink);background:#fff;border:2px solid var(--soft);border-radius:18px;padding:16px 18px 16px 50px;cursor:pointer;position:relative;transition:border-color .2s,background .2s,transform .15s,box-shadow .2s}
+.mods button:hover{border-color:var(--rec);transform:translateY(-2px)}
+.mods button i{position:absolute;left:16px;top:18px;width:22px;height:22px;border-radius:50%;border:2px solid #bdb5a8;background:#fff}
+.mods button.on{background:var(--ink);color:var(--paper);border-color:var(--rec);box-shadow:0 10px 24px rgba(17,16,18,.2)}
+.mods button.on i{border-color:var(--rec);background:radial-gradient(circle,var(--rec) 45%,#fff 48%)}
+.mods b{display:block;font-family:'Archivo Black';font-size:17px}
+.mods span{font-size:13.5px;color:var(--mut)}
+.mods button.on span{color:var(--mutd)}
+.mnav{display:none;align-items:center;justify-content:center;gap:16px;margin-top:14px}
+.mnav button{width:40px;height:40px;border-radius:50%;border:2px solid var(--ink);background:#fff;font-size:24px;line-height:1;cursor:pointer;color:var(--ink)}
+.dots{display:flex;gap:7px}
+.dots i{width:9px;height:9px;border-radius:50%;background:#cfc7ba;transition:width .25s,background .25s}
+.dots i.on{width:26px;border-radius:6px;background:var(--rec)}
+#vplans{touch-action:pan-y}
+#vplans.sai-esq{animation:saiE .22s ease forwards}#vplans.sai-dir{animation:saiD .22s ease forwards}
+#vplans.entra-esq{animation:entE .3s ease}#vplans.entra-dir{animation:entD .3s ease}
+@keyframes saiE{to{opacity:0;transform:translateX(-40px)}}@keyframes saiD{to{opacity:0;transform:translateX(40px)}}
+@keyframes entE{from{opacity:0;transform:translateX(40px)}}@keyframes entD{from{opacity:0;transform:translateX(-40px)}}
+@media (max-width:900px){
+  .mods{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:10px;padding-bottom:4px;margin-left:-20px;margin-right:-20px;padding-left:20px;padding-right:20px;scrollbar-width:none}
+  .mods::-webkit-scrollbar{display:none}
+  .mods button{flex:0 0 78%;scroll-snap-align:center}
+  .mnav{display:flex}
+}
+@media (max-width:900px){.post-nota.dupla{grid-template-columns:1fr}}
+@media (max-width:900px){
+  section{padding:60px 0}
+  .facts{grid-template-columns:1fr 1fr}
+  .plans,.mods,.inc,.g2{grid-template-columns:1fr}
+  .plan.hot{order:-1}
+  .plan .for{min-height:0}
+}
+</style>
+</head>
+<body>
+
+<nav class="nav"><div class="wrap">
+  <a href="/" class="tp"><span class="st"></span><span class="tx">TAKE PRONTO.</span></a>
+  <a class="cta" href="#contato">Escolher meu pacote</a>
+</div></nav>
+
+<section class="hero dark">
+  <div class="wrap">
+    <span class="rec">PLANOS TAKEPRONTO</span>
+    <h1>Escolha o seu pacote. <span class="r">A gente deixa pronto.</span></h1>
+    <p class="lead">Pacotes fechados: você escolhe quantos vídeos quer, paga à vista no Pix ou em 3x sem juros, e recebe tudo editado. Sem mensalidade e sem fidelidade.</p>
+    <div class="facts">
+      <div><b>Pix ou 3x sem juros</b><span>à vista no Pix ou em até 3x no link</span></div>
+      <div><b>Até 45 dias</b><span>para receber o pacote completo</span></div>
+      <div><b>90 dias</b><span>para você gravar tudo, no seu tempo</span></div>
+      <div><b>Sem fidelidade</b><span>acabou o pacote, você decide se renova</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- A: conteúdo completo -->
+<section id="completo">
+  <div class="wrap">
+    <div class="kick">Pacotes de conteúdo completo</div>
+    <h2>Vídeos, posts e carrosséis.</h2>
+    <p class="lead">Roteiro, link de gravação e edição dos vídeos, mais posts estáticos e carrosséis de até 5 páginas, com a pauta planejada pela nossa equipe. E a gente ainda posta tudo para você.*</p>
+    <div class="plans">
+      <article class="plan">
+        <h3>Constância</h3>
+        <p class="for">Para começar a postar com frequência.</p>
+        <div class="price"><small>R$</small><b>1.899</b></div>
+        <div class="once">à vista no Pix</div>
+        <div class="x3">ou <b>3x de R$ 633</b> sem juros no link</div>
+        <span class="per">13 conteúdos · R$ 146 cada</span>
+        <ul><li><b>8 vídeos</b> com roteiro e edição</li><li><b>3 posts</b> estáticos</li><li><b>2 carrosséis</b></li><li>Pauta do pacote planejada</li><li>1 animação 3D</li><li><b>A gente posta por você*</b></li></ul>
+        <a class="go" data-plano="Constância (R$ 1.899)" href="#">Quero o Constância</a>
+      </article>
+      <article class="plan hot">
+        <span class="badge">Mais escolhido</span>
+        <h3>Presença</h3>
+        <p class="for">Para aparecer toda semana e ser lembrado.</p>
+        <div class="price"><small>R$</small><b>2.649</b></div>
+        <div class="once">à vista no Pix</div>
+        <div class="x3">ou <b>3x de R$ 883</b> sem juros no link</div>
+        <span class="per">19 conteúdos · R$ 139 cada</span>
+        <ul><li><b>12 vídeos</b> com roteiro e edição</li><li><b>4 posts</b> estáticos</li><li><b>3 carrosséis</b></li><li>Pauta do pacote planejada</li><li>2 animações 3D</li><li><b>A gente posta por você*</b></li></ul>
+        <a class="go" data-plano="Presença (R$ 2.649)" href="#">Quero o Presença</a>
+      </article>
+      <article class="plan">
+        <h3>Autoridade</h3>
+        <p class="for">Para virar referência no seu nicho.</p>
+        <div class="price"><small>R$</small><b>3.149</b></div>
+        <div class="once">à vista no Pix</div>
+        <div class="x3">ou <b>3x de R$ 1.049,67</b> sem juros no link</div>
+        <span class="per">25 conteúdos · R$ 126 cada</span>
+        <ul><li><b>15 vídeos</b> com roteiro e edição</li><li><b>6 posts</b> estáticos</li><li><b>4 carrosséis</b></li><li>Pauta do pacote planejada</li><li>4 animações 3D</li><li><b>A gente posta por você*</b></li></ul>
+        <a class="go" data-plano="Autoridade (R$ 3.149)" href="#">Quero o Autoridade</a>
+      </article>
+    </div>
+    <div class="post-nota">
+      <span class="ast">*</span>
+      <div>
+        <b>Quem posta somos nós.</b> Você não precisa postar, não precisa escrever a legenda, não precisa baixar o vídeo. Não precisa fazer nada.
+        <span>A única coisa que você faz é <strong>autorizar o acesso à sua página</strong>. Depois disso, a nossa equipe programa as postagens, e cada uma só vai ao ar depois da sua aprovação.</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- B: só vídeos -->
+<section id="videos" style="padding-top:10px">
+  <div class="wrap">
+    <div class="kick">Só vídeos</div>
+    <h2>Prefere só os vídeos?</h2>
+    <p class="lead">Escolha como a gente trabalha junto, inclusive quem vai postar, e depois o tamanho do pacote. Quanto maior o pacote, menor o valor de cada vídeo.</p>
+    <p class="pick"><span>👆</span> Toque para escolher, ou arraste os pacotes para o lado</p>
+    <div class="mods" role="tablist">
+      <button type="button" class="on" data-m="0" role="tab" aria-selected="true"><i></i><b>Só edição</b><span>Você grava do seu jeito e manda o vídeo. A gente edita.</span></button>
+      <button type="button" data-m="1" role="tab" aria-selected="false"><i></i><b>Roteiro + edição</b><span>A gente escreve o roteiro, manda o link e edita.</span></button>
+      <button type="button" data-m="2" role="tab" aria-selected="false"><i></i><b>Completo</b><span>Roteiro, edição, melhor horário, tendências e a gente posta.</span></button>
+    </div>
+    <div class="mnav"><button type="button" class="prev" aria-label="Modalidade anterior">‹</button><div class="dots"><i class="on"></i><i></i><i></i></div><button type="button" class="next" aria-label="Próxima modalidade">›</button></div>
+    <div class="plans" id="vplans"></div>
+    <div class="post-nota dupla">
+      <div><span class="ast">**</span><b>Só edição e Roteiro + edição: quem posta é você.</b><span>Cada vídeo chega num link com o <strong>vídeo pronto, a capa e a legenda</strong>. É só baixar e postar no seu perfil, na hora que quiser.</span></div>
+      <div><span class="ast">*</span><b>Completo: quem posta somos nós.</b><span>Você só <strong>autoriza o acesso à sua página</strong>. A gente programa as postagens no melhor horário, e cada uma só vai ao ar depois da sua aprovação.</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- inclusos -->
+<section class="dark">
+  <div class="wrap">
+    <div class="kick">O que vem em cada pacote</div>
+    <h2>Cada pacote, <span class="y">o que inclui.</span></h2>
+    <div class="cmp"><table>
+      <thead><tr><th></th><th>Conteúdo completo<small>Constância · Presença · Autoridade</small></th><th>Só edição</th><th>Roteiro + edição</th><th>Completo<small>só vídeos</small></th></tr></thead>
+      <tbody>
+        <tr><th><b>Roteiro escrito para você</b><span>Você escolhe o tema, com até 2 ajustes</span></th><td class="s">✓</td><td class="n">–</td><td class="s">✓</td><td class="s">✓</td></tr>
+        <tr><th><b>Link de gravação</b><span>Teleprompter no celular, só seu</span></th><td class="s">✓</td><td class="n">–</td><td class="s">✓</td><td class="s">✓</td></tr>
+        <tr><th><b>Guia de gravação</b><span>Luz, som e enquadramento</span></th><td class="s">✓</td><td class="n">–</td><td class="s">✓</td><td class="s">✓</td></tr>
+        <tr><th><b>Edição completa</b><span>Cortes, legenda, trilha e som tratado</span></th><td class="s">✓</td><td class="s">✓</td><td class="s">✓</td><td class="s">✓</td></tr>
+        <tr><th><b>Animação e lettering</b><span>2D, 3D e estilos especiais</span></th><td class="s">✓</td><td class="s">✓</td><td class="s">✓</td><td class="s">✓</td></tr>
+        <tr><th><b>Capa e legenda</b><span>Prontas em cada vídeo</span></th><td class="s">✓</td><td class="s">✓</td><td class="s">✓</td><td class="s">✓</td></tr>
+        <tr><th><b>1 ajuste na edição</b><span>Em cada conteúdo, antes de postar</span></th><td class="s">✓</td><td class="s">✓</td><td class="s">✓</td><td class="s">✓</td></tr>
+        <tr><th><b>Posts e carrosséis</b><span>Estáticos e carrosséis de até 5 páginas</span></th><td class="s">✓</td><td class="n">–</td><td class="n">–</td><td class="n">–</td></tr>
+        <tr><th><b>Pauta planejada</b><span>Os temas do pacote organizados pela nossa equipe</span></th><td class="s">✓</td><td class="n">–</td><td class="n">–</td><td class="n">–</td></tr>
+        <tr><th><b>Melhor horário e tendências</b><span>Pesquisa do seu nicho</span></th><td class="s">✓</td><td class="n">–</td><td class="n">–</td><td class="s">✓</td></tr>
+        <tr class="quem"><th><b>Quem posta</b><span>Postagem programada após a sua aprovação</span></th><td><em class="nos">A gente*</em></td><td><em>Você**</em></td><td><em>Você**</em></td><td><em class="nos">A gente*</em></td></tr>
+      </tbody>
+    </table></div>
+    <p class="cmp-nota">No Só edição, você grava do seu jeito, com o seu texto, e manda o vídeo para a gente. Por isso ele não inclui roteiro nem link de gravação.</p>
+  </div>
+</section>
+
+<!-- adicionais e regras -->
+<section>
+  <div class="wrap">
+    <div class="kick">Adicionais</div>
+    <h2>Quer mais?</h2>
+    <div class="g2" style="grid-template-columns:1fr;max-width:560px">
+      <div class="card"><h3>Vídeo avulso</h3><p>Precisa de um conteúdo a mais, fora do pacote? A gente faz.</p><div class="val">R$ 199 por vídeo</div><p style="font-size:13px;margin-top:4px">à vista no Pix ou 3x de R$ 66,33 sem juros</p></div>
+    </div>
+    <div class="kick" style="margin-top:56px">Como funciona o pacote</div>
+    <ul class="rules">
+      <li>Pagamento à vista via Pix ou em até 3x sem juros pelo link de pagamento. Os 45 dias de entrega começam a contar na confirmação do pagamento.</li>
+      <li>Você tem 90 dias para gravar tudo. Se a gravação atrasar, o prazo de entrega anda junto.</li>
+      <li>Vídeos de até 60 segundos. Vídeos mais longos contam como 2 conteúdos a cada 60 segundos.</li>
+      <li>Imagens de pacientes ou de outras pessoas só com autorização por escrito.</li>
+      <li>Não inclui filmagem presencial, tráfego pago nem gestão do perfil.</li>
+      <li>Sem renovação automática: um novo pacote é um novo combinado.</li>
+    </ul>
+  </div>
+</section>
+
+<section class="dark" id="contato">
+  <div class="wrap">
+    <span class="rec">PRONTO PARA GRAVAR</span>
+    <h2 style="margin-top:20px">Escolheu? <span class="r">A gente começa pelo roteiro.</span></h2>
+    <p class="lead">Chame a gente no WhatsApp com o pacote escolhido. A gente envia o contrato e o seu primeiro link de gravação.</p>
+    <a class="wa" id="waMain" href="#" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 2.9 2.9 0 0 0-.9 2.2 5 5 0 0 0 1.1 2.7 11.5 11.5 0 0 0 4.4 3.9c1.6.7 2.3.8 3.1.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.1-1.2l-.6-.3z"/></svg>Falar no WhatsApp</a>
+  </div>
+</section>
+
+<footer><div class="wrap"><span>© 2026 TakePronto · A.D.M Carneiro Junior · CNPJ 48.975.748/0001-36</span><span><a href="/">takepronto.com.br</a> · <a href="/privacidade/">Privacidade</a></span></div></footer>
+
+<script>
+const WA='https://wa.me/5592994947931?text=';
+const msg=p=>encodeURIComponent('Olá! Vi os planos da TakePronto e quero o pacote '+p+'.');
+document.getElementById('waMain').href=WA+encodeURIComponent('Olá! Vi os planos da TakePronto e quero escolher o meu pacote.');
+const ICON=document.querySelector('#waMain svg').outerHTML;
+const liga=()=>document.querySelectorAll('.go[data-plano]').forEach(a=>{a.href=WA+msg(a.dataset.plano);a.target='_blank';a.rel='noopener';if(!a.querySelector('svg'))a.insertAdjacentHTML('afterbegin',ICON)});
+// só vídeos: 3 modalidades x 3 tamanhos
+const MOD=[
+ {n:'Só edição',p:[1359,1909,2259],inc:['Você grava e manda o vídeo','Edição completa','Animação e lettering','Capa e legenda','<b>Você posta**</b>']},
+ {n:'Roteiro + edição',p:[1489,2099,2489],inc:['Roteiro escrito para você','Link de gravação','Edição completa','Capa e legenda','<b>Você posta**</b>']},
+ {n:'Completo',p:[1999,2749,3209],inc:['Roteiro + edição','Melhor horário para postar','Tendências do seu nicho','<b>A gente posta por você*</b>']}];
+const Q=[8,12,15],NOME=['8 vídeos','12 vídeos','15 vídeos'];
+const brl=v=>v.toLocaleString('pt-BR');
+const x3=v=>{const p=v/3;return Number.isInteger(p)?p.toLocaleString('pt-BR'):p.toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2})};
+const pinta=m=>{
+  const M=MOD[m];
+  document.getElementById('vplans').innerHTML=Q.map((q,i)=>`<article class="plan${i===1?' hot':''}">${i===1?'<span class="badge">Mais escolhido</span>':''}
+    <h3>${NOME[i]}</h3><p class="for">${M.n}</p>
+    <div class="price"><small>R$</small><b>${brl(M.p[i])}</b></div><div class="once">à vista no Pix</div><div class="x3">ou <b>3x de R$ ${x3(M.p[i])}</b> sem juros no link</div>
+    <span class="per">R$ ${Math.round(M.p[i]/q)} por vídeo</span>
+    <ul>${M.inc.map(x=>'<li>'+x+'</li>').join('')}</ul>
+    <a class="go" data-plano="${M.n} ${NOME[i]} (R$ ${brl(M.p[i])})" href="#">Quero esse pacote</a></article>`).join('');
+  liga();
+};
+let atual=0;
+const BTN=[...document.querySelectorAll('.mods button')],DOT=[...document.querySelectorAll('.dots i')],VP=document.getElementById('vplans');
+const vai=(m,dir)=>{
+  m=(m+3)%3;if(m===atual&&dir)return;
+  BTN.forEach((b,i)=>{b.classList.toggle('on',i===m);b.setAttribute('aria-selected',i===m)});
+  DOT.forEach((d,i)=>d.classList.toggle('on',i===m));
+  if(dir){const box=BTN[m].parentElement;box.scrollTo({left:BTN[m].offsetLeft-(box.clientWidth-BTN[m].clientWidth)/2,behavior:'smooth'})}
+  if(!dir){atual=m;pinta(m);return}
+  VP.className='plans sai-'+(dir>0?'esq':'dir');
+  setTimeout(()=>{atual=m;pinta(m);VP.className='plans entra-'+(dir>0?'esq':'dir')},200);
+};
+BTN.forEach((b,i)=>b.addEventListener('click',()=>vai(i,i>atual?1:i<atual?-1:0)));
+document.querySelector('.mnav .prev').addEventListener('click',()=>vai(atual-1,-1));
+document.querySelector('.mnav .next').addEventListener('click',()=>vai(atual+1,1));
+let x0=null,y0=null;
+VP.addEventListener('touchstart',e=>{x0=e.touches[0].clientX;y0=e.touches[0].clientY},{passive:true});
+VP.addEventListener('touchend',e=>{if(x0===null)return;const dx=e.changedTouches[0].clientX-x0,dy=e.changedTouches[0].clientY-y0;x0=null;if(Math.abs(dx)>50&&Math.abs(dx)>Math.abs(dy))vai(atual+(dx<0?1:-1),dx<0?1:-1)},{passive:true});
+let px=null;VP.addEventListener('pointerdown',e=>{if(e.pointerType==='mouse')px=e.clientX});
+VP.addEventListener('pointerup',e=>{if(px===null)return;const dx=e.clientX-px;px=null;if(Math.abs(dx)>80)vai(atual+(dx<0?1:-1),dx<0?1:-1)});
+// no celular: arrastar a fileira de botões também troca a modalidade
+const MODS=document.querySelector('.mods');let tScroll=null;
+MODS.addEventListener('scroll',()=>{if(getComputedStyle(MODS).display!=='flex')return;clearTimeout(tScroll);tScroll=setTimeout(()=>{const c=MODS.scrollLeft+MODS.clientWidth/2;let best=0,bd=1e9;BTN.forEach((b,i)=>{const d=Math.abs(b.offsetLeft+b.clientWidth/2-c);if(d<bd){bd=d;best=i}});if(best!==atual)vai(best,best>atual?1:-1)},140)},{passive:true});
+vai(0,0);liga();
+</script>
+</body>
+</html>
