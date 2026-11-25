@@ -264,7 +264,7 @@ footer a{color:inherit}
         <tr><th><b>Link de gravação</b><span>Teleprompter no celular, só seu</span></th><td class="s">✓</td><td class="n">–</td><td class="s">✓</td><td class="s">✓</td></tr>
         <tr><th><b>Guia de gravação</b><span>Luz, som e enquadramento</span></th><td class="s">✓</td><td class="n">–</td><td class="s">✓</td><td class="s">✓</td></tr>
         <tr><th><b>Edição completa</b><span>Cortes, legenda, trilha e som tratado</span></th><td class="s">✓</td><td class="s">✓</td><td class="s">✓</td><td class="s">✓</td></tr>
-        <tr><th><b>Animação e lettering</b><span>2D, 3D e estilos especiais</span></th><td class="s">✓</td><td class="s">✓</td><td class="s">✓</td><td class="s">✓</td></tr>
+        <tr><th><b>Animação 2D e 3D e lettering</b><span>Só nos pacotes de conteúdo completo</span></th><td class="s">✓</td><td class="n">–</td><td class="n">–</td><td class="n">–</td></tr>
         <tr><th><b>Capa e legenda</b><span>Prontas em cada vídeo</span></th><td class="s">✓</td><td class="s">✓</td><td class="s">✓</td><td class="s">✓</td></tr>
         <tr><th><b>1 ajuste na edição</b><span>Em cada conteúdo, antes de postar</span></th><td class="s">✓</td><td class="s">✓</td><td class="s">✓</td><td class="s">✓</td></tr>
         <tr><th><b>Posts e carrosséis</b><span>Estáticos e carrosséis de até 5 páginas</span></th><td class="s">✓</td><td class="n">–</td><td class="n">–</td><td class="n">–</td></tr>
@@ -273,7 +273,7 @@ footer a{color:inherit}
         <tr class="quem"><th><b>Quem posta</b><span>Postagem programada após a sua aprovação</span></th><td><em class="nos">A gente*</em></td><td><em>Você**</em></td><td><em>Você**</em></td><td><em class="nos">A gente*</em></td></tr>
       </tbody>
     </table></div>
-    <p class="cmp-nota">No Só edição, você grava do seu jeito, com o seu texto, e manda o vídeo para a gente. Por isso ele não inclui roteiro nem link de gravação.</p>
+    <p class="cmp-nota">No Só edição, você grava do seu jeito, com o seu texto, e manda o vídeo para a gente. Por isso ele não inclui roteiro nem link de gravação. Animação 2D e 3D vem só nos pacotes de conteúdo completo (Constância, Presença e Autoridade).</p>
   </div>
 </section>
 
@@ -316,7 +316,7 @@ const ICON=document.querySelector('#waMain svg').outerHTML;
 const liga=()=>document.querySelectorAll('.go[data-plano]').forEach(a=>{a.href=WA+msg(a.dataset.plano);a.target='_blank';a.rel='noopener';if(!a.querySelector('svg'))a.insertAdjacentHTML('afterbegin',ICON)});
 // só vídeos: 3 modalidades x 3 tamanhos
 const MOD=[
- {n:'Só edição',p:[1359,1909,2259],inc:['Você grava e manda o vídeo','Edição completa','Animação e lettering','Capa e legenda','<b>Você posta**</b>']},
+ {n:'Só edição',p:[1359,1909,2259],inc:['Você grava e manda o vídeo','Edição completa','Capa e legenda','<b>Você posta**</b>']},
  {n:'Roteiro + edição',p:[1489,2099,2489],inc:['Roteiro escrito para você','Link de gravação','Edição completa','Capa e legenda','<b>Você posta**</b>']},
  {n:'Completo',p:[1999,2749,3209],inc:['Roteiro + edição','Melhor horário para postar','Tendências do seu nicho','<b>A gente posta por você*</b>']}];
 const Q=[8,12,15],NOME=['8 vídeos','12 vídeos','15 vídeos'];
