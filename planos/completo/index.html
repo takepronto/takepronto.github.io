@@ -213,6 +213,90 @@ footer a{color:inherit}
   .steps2 .who{grid-column:2;justify-content:flex-start}
   .steps2 .txt{padding-left:18px}
 }
+
+/* ===== celular, revisão 25/11 ===== */
+@media (max-width:640px){
+  body{font-size:16px}
+  .wrap{padding:0 18px}
+  section{padding:44px 0}
+  .nav .wrap{height:56px}
+  .nav .tp{font-size:12px}
+  .nav a.cta,.back{font-size:12.5px;padding:7px 12px}
+  .hero{padding:36px 0 34px}
+  .hero h1,.hero.mini h1{font-size:33px;line-height:1.02;margin:14px 0 12px}
+  h2{font-size:28px;line-height:1.05;margin-bottom:10px}
+  .lead{font-size:15.5px}
+  .kick{font-size:11.5px;margin-bottom:8px}
+  .rec{font-size:10.5px;padding:5px 11px}
+  /* entrada */
+  .choose{gap:14px;margin-top:24px}
+  .path{padding:22px 20px;border-radius:22px}
+  .path h2{font-size:25px;margin:12px 0 6px}
+  .path p{font-size:14.5px}
+  .path .from{margin-top:12px}
+  .path .from b{font-size:24px}
+  .path ul{margin:12px 0 18px;gap:6px;font-size:14.5px}
+  .path .btn{padding:13px 16px;font-size:15px}
+  .help{font-size:14px;margin-top:20px}
+  .facts{gap:8px;margin-top:24px}
+  .facts div{padding:12px 12px;border-radius:14px}
+  .facts b{font-size:15px}
+  .facts span{font-size:12.5px;line-height:1.35;display:block;margin-top:2px}
+  /* pacotes em carrossel: um cartão por vez, arrastando para o lado */
+  .plans{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:12px;margin:22px -18px 0;padding:14px 18px 8px;scrollbar-width:none;align-items:stretch}
+  .plans::-webkit-scrollbar{display:none}
+  .plan{flex:0 0 84%;scroll-snap-align:center;padding:22px 20px;border-radius:20px}
+  .plan.hot{order:0}
+  .plan h3{font-size:22px}
+  .plan .for{font-size:13px;min-height:0}
+  .price{margin-top:12px}
+  .price b{font-size:36px}
+  .plan ul{margin:14px 0 18px;gap:7px;font-size:14px}
+  .plan .go{padding:12px 16px;font-size:15px}
+  .badge{top:-11px;left:20px;font-size:10px}
+  .swipe{display:flex;align-items:center;justify-content:center;gap:8px;font-size:12.5px;color:var(--mut);margin-top:6px}
+  .swipe i{width:7px;height:7px;border-radius:50%;background:#cfc7ba;display:inline-block;transition:width .2s,background .2s}
+  .swipe i.on{width:20px;border-radius:5px;background:var(--rec)}
+  /* modalidades */
+  .pick{font-size:12.5px;margin-top:14px}
+  .mods button{flex:0 0 74%;padding:12px 14px 12px 42px;border-radius:16px}
+  .mods button i{left:13px;top:14px;width:19px;height:19px}
+  .mods b{font-size:15px}
+  .mods span{font-size:12.5px;line-height:1.35}
+  .mnav{margin-top:10px}
+  .mnav button{width:34px;height:34px;font-size:20px}
+  /* notas */
+  .post-nota{padding:16px 16px;gap:12px;border-radius:16px}
+  .post-nota div{font-size:14px}
+  .post-nota b{font-size:15px}
+  .post-nota .ast{font-size:28px}
+  .post-nota.dupla{gap:16px}
+  .post-nota.dupla>div{padding-left:34px}
+  .post-nota.dupla .ast{font-size:22px}
+  /* o que vem em cada pacote */
+  .hint2{font-size:12.5px}
+  .steps2{gap:8px;margin-top:18px}
+  .steps2 summary{grid-template-columns:34px 1fr 26px;gap:12px;padding:13px 14px;align-items:start}
+  .steps2 .ic{width:34px;height:34px;border-radius:10px;font-size:13px}
+  .steps2 summary b{font-size:15px}
+  .steps2 summary small{font-size:12px}
+  .steps2 summary>span:last-child{display:contents!important}
+  .steps2 .mais{grid-column:3;grid-row:1;margin:4px 0 0}
+  .steps2 .who{grid-column:1/-1;grid-row:2;justify-content:flex-start;gap:5px}
+  .steps2 .who span{font-size:11px;padding:3px 8px;white-space:nowrap}
+  .steps2 .txt{padding:0 14px 14px;font-size:14.5px}
+  /* adicionais, regras e troca */
+  .card{padding:18px}
+  .card .val{font-size:21px}
+  .rules{gap:8px;margin-top:16px}
+  .rules li{font-size:14px;padding:12px 14px 12px 42px}
+  .rules li:before{left:13px;top:12px}
+  .switch{padding:18px;border-radius:18px;gap:14px}
+  .switch b{font-size:17px}
+  .switch a{width:100%;justify-content:center;padding:12px 16px;font-size:15px}
+  .wa{font-size:16px;padding:15px 22px;margin-top:20px}
+  footer .wrap{flex-direction:column;gap:6px;font-size:12px}
+}
 </style>
 </head>
 <body>
@@ -233,7 +317,7 @@ footer a{color:inherit}
   <div class="wrap">
     <div class="kick">Escolha o pacote</div>
     <h2>Qual é o seu ritmo?</h2>
-    <p class="lead">Roteiro, link de gravação e edição dos vídeos <b>com animação 2D e 3D e lettering</b>, mais posts estáticos e carrosséis de até 5 páginas, com a pauta planejada pela nossa equipe. E a gente ainda posta tudo para você.*</p>
+    <p class="lead">Os três têm o mesmo cuidado. Muda a quantidade de vídeos, posts, carrosséis e animações 3D.</p>
     <div class="plans">
       <article class="plan">
         <h3>Constância</h3>
@@ -335,6 +419,28 @@ const msg=p=>encodeURIComponent('Olá! Vi os planos da TakePronto e quero o paco
 document.getElementById('waMain').href=WA+encodeURIComponent('Olá! Vi os planos da TakePronto e quero escolher o meu pacote.');
 const ICON=document.querySelector('#waMain svg').outerHTML;
 document.querySelectorAll('.go[data-plano]').forEach(a=>{a.href=WA+msg(a.dataset.plano);a.target='_blank';a.rel='noopener';if(!a.querySelector('svg'))a.insertAdjacentHTML('afterbegin',ICON)});
+</script>
+
+<script>
+/* celular: carrossel de pacotes começa no "Mais escolhido" e mostra as bolinhas */
+(function(){
+  const mq=matchMedia('(max-width:640px)');
+  const prep=box=>{
+    if(!box||!mq.matches)return;
+    let sw=box.nextElementSibling&&box.nextElementSibling.classList.contains('swipe')?box.nextElementSibling:null;
+    const cards=[...box.querySelectorAll('.plan')];
+    if(!sw){sw=document.createElement('div');sw.className='swipe';box.after(sw)}
+    sw.innerHTML='<span>arraste para ver os outros</span>'+cards.map(()=>'<i></i>').join('');
+    const dots=[...sw.querySelectorAll('i')];
+    const marca=()=>{const c=box.scrollLeft+box.clientWidth/2;let b=0,d=1e9;cards.forEach((k,i)=>{const x=Math.abs(k.offsetLeft+k.clientWidth/2-c);if(x<d){d=x;b=i}});dots.forEach((t,i)=>t.classList.toggle('on',i===b))};
+    const hot=cards.findIndex(k=>k.classList.contains('hot'));
+    if(hot>=0){const k=cards[hot];box.scrollLeft=k.offsetLeft-(box.clientWidth-k.clientWidth)/2}
+    marca();box.onscroll=()=>requestAnimationFrame(marca);
+  };
+  document.querySelectorAll('.plans').forEach(prep);
+  const vp=document.getElementById('vplans');
+  if(vp)new MutationObserver(()=>prep(vp)).observe(vp,{childList:true});
+})();
 </script>
 </body>
 </html>
