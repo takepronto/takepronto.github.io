@@ -59,6 +59,24 @@ html,body{margin:0;height:100%;background:var(--bg);color:var(--ink);font-family
 #conta{position:fixed;inset:0;display:grid;place-items:center;font:900 140px system-ui;color:#fff;text-shadow:0 6px 30px rgba(0,0,0,.6);z-index:8;pointer-events:none}
 #msg{font:600 14px system-ui;color:var(--dim);text-align:center;min-height:18px}
 button:focus-visible{outline:3px solid var(--amar);outline-offset:2px}
+/* tela de conclusão: todas as partes enviadas */
+#fim{position:fixed;inset:0;z-index:20;display:grid;place-items:center;padding:24px;text-align:center;background:radial-gradient(120% 80% at 50% 30%,#14301f 0%,#071410 55%,#05080f 100%);overflow:hidden}
+#fim canvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+#fim .cx{position:relative;max-width:420px;animation:fimEntra .6s cubic-bezier(.2,.9,.3,1.3) both}
+#fim .selo{width:112px;height:112px;margin:0 auto 18px;border-radius:50%;background:var(--ok);display:grid;place-items:center;box-shadow:0 0 0 10px rgba(34,197,94,.18),0 0 60px rgba(34,197,94,.55);animation:fimPulso 1.8s ease-in-out .7s infinite}
+#fim .selo svg{width:62px;height:62px}
+#fim .selo path{stroke-dasharray:60;stroke-dashoffset:60;animation:fimRisco .55s ease-out .35s forwards}
+#fim .marca{font:800 13px system-ui;letter-spacing:.18em;text-transform:uppercase;color:var(--amar);margin-bottom:8px}
+#fim h1{font:900 34px/1.08 system-ui;margin:0 0 10px}
+#fim p{color:#cbd5e1;font:500 16px/1.5 system-ui;margin:0 0 16px}
+#fim ul{list-style:none;margin:0 0 18px;padding:0;display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+#fim li{background:rgba(34,197,94,.16);color:#bbf7d0;border:1px solid rgba(34,197,94,.45);border-radius:999px;padding:7px 12px;font:700 14px system-ui;opacity:0;animation:fimEntra .4s ease-out forwards}
+#fim .prox{background:rgba(255,255,255,.08);border-radius:16px;padding:14px 16px;font:600 15px/1.45 system-ui;color:#e2e8f0;margin-bottom:18px}
+#fim .prox b{color:var(--amar)}
+#fim button{border:0;border-radius:14px;height:46px;padding:0 18px;font:700 15px system-ui;background:rgba(255,255,255,.12);color:#e2e8f0}
+@keyframes fimEntra{from{opacity:0;transform:translateY(16px) scale(.96)}to{opacity:1;transform:none}}
+@keyframes fimPulso{50%{box-shadow:0 0 0 18px rgba(34,197,94,.08),0 0 80px rgba(34,197,94,.7)}}
+@keyframes fimRisco{to{stroke-dashoffset:0}}
 </style>
 </head>
 <body>
@@ -100,6 +118,15 @@ button:focus-visible{outline:3px solid var(--amar);outline-offset:2px}
   <div id="msg"></div>
 </div>
 <div id="aviso"><div><div style="font:800 15px system-ui;letter-spacing:.14em;text-transform:uppercase;color:var(--azul);margin-bottom:14px">TakePronto</div><h1 id="avT">Carregando o roteiro…</h1><p id="avP">Leia o texto no alto da tela e grave cada parte. Cada vídeo enviado chega direto para a nossa equipe de edição.</p><button id="ligar" disabled>Ligar a câmera</button><br><button id="copiar" hidden style="margin-top:12px;background:rgba(255,255,255,.14)">Copiar o link</button></div></div>
+<div id="fim" hidden><canvas id="confete"></canvas><div class="cx">
+  <div class="selo"><svg viewBox="0 0 24 24" fill="none"><path d="M5 12.5l4.5 4.5L19 7.5" stroke="#05210f" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+  <div class="marca">TakePronto</div>
+  <h1 id="fimT">Parabéns! Tudo concluído 🎉</h1>
+  <p id="fimP">Você gravou e enviou todas as partes. Não precisa gravar mais nada.</p>
+  <ul id="fimL"></ul>
+  <div class="prox">Agora é com a gente: a nossa equipe vai editar e você recebe o <b>vídeo pronto pelo WhatsApp</b>.</div>
+  <button id="fimRever">Quero regravar alguma parte</button>
+</div></div>
 <script src="/gravar/config.js"></script>
 <script>
 const $ = (s) => document.querySelector(s);
@@ -576,7 +603,7 @@ $("#enviar").onclick = async () => {
     api({ acao: "pronto", c: COD, story: s.n, nome: nomeArq, tudo: R.stories.every((_, i) => feitos.has(i)) }).catch(() => {}); $("#tempo").textContent = "0:00";
     const prox = R.stories.findIndex((_, i) => !feitos.has(i));
     if (prox >= 0) { atual = prox; mostra(); $("#msg").textContent = nomeItem(s) + " enviada ✓  Agora: " + nomeItem(R.stories[prox]) + "."; }
-    else { mostra(); $("#msg").textContent = "Tudo enviado ✓  Obrigado! Nossa equipe já recebeu os " + R.stories.length + " vídeos."; }
+    else { mostra(); $("#msg").textContent = "Tudo enviado ✓  Obrigado! Nossa equipe já recebeu os " + R.stories.length + " vídeos."; concluido(true); }
   } catch (e) {
     $("#barra").hidden = true;
     $("#msg").textContent = "Não terminou de enviar (" + (e.message || e) + "). Confira a internet e toque em Enviar de novo.";
@@ -584,6 +611,36 @@ $("#enviar").onclick = async () => {
     enviando = false; $("#enviar").disabled = false; $("#regravar").disabled = false;
   }
 };
+
+// ---------------------------------------------------------------- conclusão: todas as partes enviadas
+function concluido(festa) {
+  const n = R.stories.length, nome = R.cliente ? R.cliente.split(" ")[0] : "";
+  $("#fimT").textContent = "Parabéns" + (nome ? ", " + nome : "") + "! Tudo concluído 🎉";
+  $("#fimP").textContent = (n > 1 ? "Você gravou e enviou as " + n + " partes" : "Você gravou e enviou o seu vídeo") + " e seguiu todo o passo a passo. Não precisa gravar mais nada.";
+  $("#fimL").innerHTML = "";
+  R.stories.forEach((s, i) => { const li = document.createElement("li"); li.textContent = "✓ " + nomeItem(s) + " enviada"; li.style.animationDelay = (0.5 + i * 0.12) + "s"; $("#fimL").appendChild(li); });
+  $("#aviso").hidden = true; $("#fim").hidden = false;
+  if (festa) { try { navigator.vibrate && navigator.vibrate([60, 40, 120]); } catch (e) {} confete(); }
+}
+$("#fimRever").onclick = () => { $("#fim").hidden = true; if (!stream) { $("#aviso").hidden = false; } };
+function confete() {
+  const cv = $("#confete"), cx = cv.getContext("2d"), dpr = Math.min(2, window.devicePixelRatio || 1);
+  const W = cv.width = innerWidth * dpr, H = cv.height = innerHeight * dpr;
+  const cores = ["#facc15", "#22c55e", "#ef4444", "#3b82f6", "#f8fafc", "#fb923c"], ps = [];
+  // dois estouros, um de cada canto de baixo, e uma chuva leve
+  const estouro = (x0, ang) => { for (let i = 0; i < 90; i++) { const a = ang + (Math.random() - .5) * 0.9, v = (9 + Math.random() * 11) * dpr; ps.push({ x: x0, y: H, vx: Math.cos(a) * v, vy: -Math.sin(a) * v, r: (4 + Math.random() * 5) * dpr, c: cores[i % cores.length], g: Math.random() * 6, s: Math.random() < .5 }); } };
+  estouro(0, Math.PI / 3); estouro(W, Math.PI * 2 / 3);
+  setTimeout(() => { for (let i = 0; i < 70; i++) ps.push({ x: Math.random() * W, y: -20 * dpr, vx: (Math.random() - .5) * 2 * dpr, vy: (2 + Math.random() * 3) * dpr, r: (3 + Math.random() * 4) * dpr, c: cores[i % cores.length], g: Math.random() * 6, s: Math.random() < .5 }); }, 700);
+  const t0 = performance.now();
+  (function quadro(t) {
+    cx.clearRect(0, 0, W, H);
+    ps.forEach((p) => { p.vy += 0.32 * dpr; p.vx *= 0.99; p.vy = Math.min(p.vy, 6 * dpr); p.x += p.vx; p.y += p.vy; p.g += 0.15;
+      cx.save(); cx.translate(p.x, p.y); cx.rotate(p.g); cx.fillStyle = p.c;
+      if (p.s) cx.fillRect(-p.r, -p.r / 2, p.r * 2, p.r); else { cx.beginPath(); cx.arc(0, 0, p.r / 1.6, 0, 7); cx.fill(); }
+      cx.restore(); });
+    if (t - t0 < 5200) requestAnimationFrame(quadro); else cx.clearRect(0, 0, W, H);
+  })(t0);
+}
 
 // ---------------------------------------------------------------- abrir o roteiro do link
 (async () => {
@@ -604,6 +661,8 @@ $("#enviar").onclick = async () => {
     if (DENTRO_DE_APP) { $("#avP").textContent += " Dica: se a câmera não abrir, abra este link no " + (IOS ? "Safari" : "Chrome") + "."; $("#copiar").hidden = false; }
     const prox = R.stories.findIndex((_, i) => !feitos.has(i)); atual = prox >= 0 ? prox : 0;
     mostra();
+    // abriu o link de novo depois de enviar tudo: mostra que já está concluído
+    if (R.stories.length && prox < 0) concluido(false);
   } catch (e) { falha("Sem conexão", "Confira a internet e abra o link de novo."); }
 })();
 </script>
