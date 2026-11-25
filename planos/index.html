@@ -5,9 +5,10 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Planos · TakePronto</title>
 <meta name="robots" content="noindex,nofollow">
-<meta name="description" content="Pacotes TakePronto: roteiro, gravação pelo celular e edição. Pagamento único, sem mensalidade.">
-<meta property="og:title" content="Planos TakePronto">
-<meta property="og:description" content="Pacotes fechados, pagos uma vez. Sem mensalidade. Entrega completa em até 45 dias.">
+<meta name="description" content="Escolha o seu caminho: só vídeos, ou vídeos, posts e carrosséis. Pagamento único, sem mensalidade.">
+<meta property="og:title" content="Planos · TakePronto">
+<meta property="og:description" content="Escolha o seu caminho: só vídeos, ou vídeos, posts e carrosséis. Pagamento único, sem mensalidade.">
+<meta property="og:url" content="https://takepronto.com.br/planos/">
 <meta property="og:image" content="https://takepronto.com.br/midia/cartao.jpg?v=3">
 <meta name="theme-color" content="#111012">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -159,20 +160,91 @@ footer a{color:inherit}
   .plan.hot{order:-1}
   .plan .for{min-height:0}
 }
+
+/* ===== caminhos ===== */
+.back{display:inline-flex;align-items:center;gap:8px;color:var(--paper);text-decoration:none;font-size:14px;font-weight:700;border:1.5px solid #3a3836;border-radius:30px;padding:8px 14px}
+.hero.mini{padding:48px 0 44px}
+.hero.mini h1{font-size:clamp(36px,5.6vw,60px);margin:18px 0 12px}
+.choose{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:40px}
+.path{display:flex;flex-direction:column;text-decoration:none;color:var(--ink);background:#fff;border-radius:26px;padding:30px;border:2px solid transparent;position:relative;overflow:hidden;transition:transform .2s,box-shadow .2s,border-color .2s}
+.path:hover{transform:translateY(-4px);border-color:var(--rec);box-shadow:0 24px 50px rgba(17,16,18,.28)}
+.path.dk{background:var(--ink2);color:var(--paper);border-color:#3a3836}
+.path .tag{align-self:flex-start;font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;border-radius:20px;padding:5px 12px;background:var(--paper);color:var(--ink)}
+.path.dk .tag{background:var(--rec);color:#fff}
+.path h2{font-size:clamp(28px,3.4vw,38px);margin:16px 0 8px}
+.path p{font-size:15.5px;color:var(--mut)}
+.path.dk p{color:var(--mutd)}
+.path .from{margin-top:18px;font-size:14px}
+.path .from b{font-family:'Archivo Black';font-size:30px;letter-spacing:-.02em}
+.path ul{list-style:none;display:grid;gap:8px;margin:18px 0 26px;font-size:15px}
+.path li{padding-left:24px;position:relative}
+.path li:before{content:"✓";position:absolute;left:0;color:var(--ok);font-weight:700}
+.path .btn{margin-top:auto;display:flex;justify-content:center;align-items:center;gap:10px;font-weight:700;border-radius:40px;padding:15px 18px;background:var(--ink);color:var(--paper);font-size:16px}
+.path.dk .btn{background:var(--rec);color:#fff}
+.path .btn em{font-style:normal;transition:transform .2s}
+.path:hover .btn em{transform:translateX(5px)}
+.help{margin-top:26px;color:var(--mutd);font-size:15px;text-align:center}
+.help a{color:var(--paper);font-weight:700}
+/* explicação item por item */
+.steps2{display:grid;gap:10px;margin-top:28px;max-width:900px}
+.steps2 details{background:var(--ink2);border-radius:16px;border:1px solid #2c2a2f;overflow:hidden}
+.steps2 summary{list-style:none;cursor:pointer;display:grid;grid-template-columns:38px 1fr auto;align-items:center;gap:14px;padding:16px 18px}
+.steps2 summary::-webkit-details-marker{display:none}
+.steps2 .ic{width:38px;height:38px;border-radius:11px;background:var(--rec);color:#fff;display:grid;place-items:center;font-weight:700}
+.steps2 summary b{font-family:'Archivo Black';font-size:17px;letter-spacing:-.01em}
+.steps2 summary small{display:block;font-size:13px;color:var(--mutd);font-weight:500;margin-top:2px}
+.steps2 .who{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}
+.steps2 .who span{font-size:11.5px;font-weight:700;border-radius:20px;padding:3px 9px;background:#2a2830;color:#8d867c}
+.steps2 .who span.ok{background:#12301f;color:#7be3a8}
+.steps2 .mais{width:26px;height:26px;border-radius:50%;border:1.5px solid #3a3836;display:grid;place-items:center;color:var(--paper);transition:transform .25s;margin-left:8px;flex:none}
+.steps2 details[open] .mais{transform:rotate(45deg);border-color:var(--rec);color:var(--rec)}
+.steps2 .txt{padding:0 18px 18px 70px;color:#C9C2B7;font-size:15.5px;line-height:1.55}
+.steps2 details[open]{border-color:#3a3836}
+.steps2 details[open] .txt{animation:abre .3s ease}
+@keyframes abre{from{opacity:0;transform:translateY(-6px)}}
+.hint2{font-size:14px;color:var(--mutd);margin-top:10px;display:flex;align-items:center;gap:8px}
+.switch{margin-top:10px;display:flex;justify-content:space-between;align-items:center;gap:20px;background:#fff;border-radius:22px;padding:24px 28px;flex-wrap:wrap}
+.switch b{font-family:'Archivo Black';font-size:20px;letter-spacing:-.01em}
+.switch p{color:var(--mut);font-size:15px;margin-top:4px}
+.switch a{display:inline-flex;align-items:center;gap:8px;text-decoration:none;font-weight:700;border-radius:40px;padding:13px 20px;background:var(--ink);color:var(--paper)}
+@media (max-width:900px){
+  .choose{grid-template-columns:1fr}
+  .steps2 summary{grid-template-columns:38px 1fr;}
+  .steps2 .who{grid-column:2;justify-content:flex-start}
+  .steps2 .txt{padding-left:18px}
+}
 </style>
 </head>
 <body>
-
 <nav class="nav"><div class="wrap">
   <a href="/" class="tp"><span class="st"></span><span class="tx">TAKE PRONTO.</span></a>
-  <a class="cta" href="#contato">Escolher meu pacote</a>
+  <a class="cta" href="/">Conhecer a TakePronto</a>
 </div></nav>
 
 <section class="hero dark">
   <div class="wrap">
     <span class="rec">PLANOS TAKEPRONTO</span>
-    <h1>Escolha o seu pacote. <span class="r">A gente deixa pronto.</span></h1>
-    <p class="lead">Pacotes fechados: você escolhe quantos vídeos quer, paga à vista no Pix ou em 3x sem juros, e recebe tudo editado. Sem mensalidade e sem fidelidade.</p>
+    <h1>O que você quer <span class="r">para o seu Instagram?</span></h1>
+    <p class="lead">Escolha um caminho para ver os pacotes. Todos são fechados: você paga uma vez, à vista no Pix ou em 3x sem juros, e recebe tudo pronto. Sem mensalidade e sem fidelidade.</p>
+    <div class="choose">
+      <a class="path" href="videos/">
+        <span class="tag">Só vídeos</span>
+        <h2>Vídeos editados</h2>
+        <p>Você grava, a gente edita. Com ou sem roteiro, em pacotes de 8, 12 ou 15 vídeos.</p>
+        <div class="from">a partir de <b>R$ 1.359</b></div>
+        <ul><li>Só edição</li><li>Roteiro + edição</li><li>Completo: a gente ainda posta</li></ul>
+        <span class="btn">Ver pacotes de vídeo <em>→</em></span>
+      </a>
+      <a class="path dk" href="completo/">
+        <span class="tag">Conteúdo completo</span>
+        <h2>Vídeos, posts e carrosséis</h2>
+        <p>O seu perfil inteiro cuidado: vídeos com animação 3D, posts, carrosséis, pauta planejada, e a gente posta.</p>
+        <div class="from">a partir de <b>R$ 1.899</b></div>
+        <ul><li>Constância</li><li>Presença</li><li>Autoridade</li></ul>
+        <span class="btn">Ver pacotes completos <em>→</em></span>
+      </a>
+    </div>
+    <p class="help">Não sabe qual escolher? <a href="#" id="waAjuda" target="_blank" rel="noopener">Chama a gente no WhatsApp</a> que a gente te ajuda.</p>
     <div class="facts">
       <div><b>Pix ou 3x sem juros</b><span>à vista no Pix ou em até 3x no link</span></div>
       <div><b>Até 45 dias</b><span>para receber o pacote completo</span></div>
@@ -181,180 +253,9 @@ footer a{color:inherit}
     </div>
   </div>
 </section>
-
-<!-- A: conteúdo completo -->
-<section id="completo">
-  <div class="wrap">
-    <div class="kick">Pacotes de conteúdo completo</div>
-    <h2>Vídeos, posts e carrosséis.</h2>
-    <p class="lead">Roteiro, link de gravação e edição dos vídeos <b>com animação 2D e 3D e lettering</b>, mais posts estáticos e carrosséis de até 5 páginas, com a pauta planejada pela nossa equipe. E a gente ainda posta tudo para você.*</p>
-    <div class="plans">
-      <article class="plan">
-        <h3>Constância</h3>
-        <p class="for">Para começar a postar com frequência.</p>
-        <div class="price"><small>R$</small><b>1.899</b></div>
-        <div class="once">à vista no Pix</div>
-        <div class="x3">ou <b>3x de R$ 633</b> sem juros no link</div>
-        <span class="per">13 conteúdos · R$ 146 cada</span>
-        <ul><li><b>8 vídeos</b> com roteiro e edição</li><li><b>3 posts</b> estáticos</li><li><b>2 carrosséis</b></li><li>Pauta do pacote planejada</li><li><b>1 animação 3D</b> + lettering</li><li><b>A gente posta por você*</b></li></ul>
-        <a class="go" data-plano="Constância (R$ 1.899)" href="#">Quero o Constância</a>
-      </article>
-      <article class="plan hot">
-        <span class="badge">Mais escolhido</span>
-        <h3>Presença</h3>
-        <p class="for">Para aparecer toda semana e ser lembrado.</p>
-        <div class="price"><small>R$</small><b>2.649</b></div>
-        <div class="once">à vista no Pix</div>
-        <div class="x3">ou <b>3x de R$ 883</b> sem juros no link</div>
-        <span class="per">19 conteúdos · R$ 139 cada</span>
-        <ul><li><b>12 vídeos</b> com roteiro e edição</li><li><b>4 posts</b> estáticos</li><li><b>3 carrosséis</b></li><li>Pauta do pacote planejada</li><li><b>2 animações 3D</b> + lettering</li><li><b>A gente posta por você*</b></li></ul>
-        <a class="go" data-plano="Presença (R$ 2.649)" href="#">Quero o Presença</a>
-      </article>
-      <article class="plan">
-        <h3>Autoridade</h3>
-        <p class="for">Para virar referência no seu nicho.</p>
-        <div class="price"><small>R$</small><b>3.149</b></div>
-        <div class="once">à vista no Pix</div>
-        <div class="x3">ou <b>3x de R$ 1.049,67</b> sem juros no link</div>
-        <span class="per">25 conteúdos · R$ 126 cada</span>
-        <ul><li><b>15 vídeos</b> com roteiro e edição</li><li><b>6 posts</b> estáticos</li><li><b>4 carrosséis</b></li><li>Pauta do pacote planejada</li><li><b>4 animações 3D</b> + lettering</li><li><b>A gente posta por você*</b></li></ul>
-        <a class="go" data-plano="Autoridade (R$ 3.149)" href="#">Quero o Autoridade</a>
-      </article>
-    </div>
-    <div class="post-nota">
-      <span class="ast">*</span>
-      <div>
-        <b>Quem posta somos nós.</b> Você não precisa postar, não precisa escrever a legenda, não precisa baixar o vídeo. Não precisa fazer nada.
-        <span>A única coisa que você faz é <strong>autorizar o acesso à sua página</strong>. Depois disso, a nossa equipe programa as postagens, e cada uma só vai ao ar depois da sua aprovação.</span>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- B: só vídeos -->
-<section id="videos" style="padding-top:10px">
-  <div class="wrap">
-    <div class="kick">Só vídeos</div>
-    <h2>Prefere só os vídeos?</h2>
-    <p class="lead">Escolha como a gente trabalha junto, inclusive quem vai postar, e depois o tamanho do pacote. Quanto maior o pacote, menor o valor de cada vídeo.</p>
-    <p class="pick"><span>👆</span> Toque para escolher, ou arraste os pacotes para o lado</p>
-    <div class="mods" role="tablist">
-      <button type="button" class="on" data-m="0" role="tab" aria-selected="true"><i></i><b>Só edição</b><span>Você grava do seu jeito e manda o vídeo. A gente edita.</span></button>
-      <button type="button" data-m="1" role="tab" aria-selected="false"><i></i><b>Roteiro + edição</b><span>A gente escreve o roteiro, manda o link e edita.</span></button>
-      <button type="button" data-m="2" role="tab" aria-selected="false"><i></i><b>Completo</b><span>Roteiro, edição, melhor horário, tendências e a gente posta.</span></button>
-    </div>
-    <div class="mnav"><button type="button" class="prev" aria-label="Modalidade anterior">‹</button><div class="dots"><i class="on"></i><i></i><i></i></div><button type="button" class="next" aria-label="Próxima modalidade">›</button></div>
-    <div class="plans" id="vplans"></div>
-    <div class="post-nota dupla">
-      <div><span class="ast">**</span><b>Só edição e Roteiro + edição: quem posta é você.</b><span>Cada vídeo chega num link com o <strong>vídeo pronto, a capa e a legenda</strong>. É só baixar e postar no seu perfil, na hora que quiser.</span></div>
-      <div><span class="ast">*</span><b>Completo: quem posta somos nós.</b><span>Você só <strong>autoriza o acesso à sua página</strong>. A gente programa as postagens no melhor horário, e cada uma só vai ao ar depois da sua aprovação.</span></div>
-    </div>
-  </div>
-</section>
-
-<!-- inclusos -->
-<section class="dark">
-  <div class="wrap">
-    <div class="kick">O que vem em cada pacote</div>
-    <h2>Cada pacote, <span class="y">o que inclui.</span></h2>
-    <div class="cmp"><table>
-      <thead><tr><th></th><th>Conteúdo completo<small>Constância · Presença · Autoridade</small></th><th>Só edição</th><th>Roteiro + edição</th><th>Completo<small>só vídeos</small></th></tr></thead>
-      <tbody>
-        <tr><th><b>Roteiro escrito para você</b><span>Você escolhe o tema, com até 2 ajustes</span></th><td class="s">✓</td><td class="n">–</td><td class="s">✓</td><td class="s">✓</td></tr>
-        <tr><th><b>Link de gravação</b><span>Teleprompter no celular, só seu</span></th><td class="s">✓</td><td class="n">–</td><td class="s">✓</td><td class="s">✓</td></tr>
-        <tr><th><b>Guia de gravação</b><span>Luz, som e enquadramento</span></th><td class="s">✓</td><td class="n">–</td><td class="s">✓</td><td class="s">✓</td></tr>
-        <tr><th><b>Edição completa</b><span>Cortes, legenda, trilha e som tratado</span></th><td class="s">✓</td><td class="s">✓</td><td class="s">✓</td><td class="s">✓</td></tr>
-        <tr><th><b>Animação 2D e 3D e lettering</b><span>Só nos pacotes de conteúdo completo</span></th><td class="s">✓</td><td class="n">–</td><td class="n">–</td><td class="n">–</td></tr>
-        <tr><th><b>Capa e legenda</b><span>Prontas em cada vídeo</span></th><td class="s">✓</td><td class="s">✓</td><td class="s">✓</td><td class="s">✓</td></tr>
-        <tr><th><b>1 ajuste na edição</b><span>Em cada conteúdo, antes de postar</span></th><td class="s">✓</td><td class="s">✓</td><td class="s">✓</td><td class="s">✓</td></tr>
-        <tr><th><b>Posts e carrosséis</b><span>Estáticos e carrosséis de até 5 páginas</span></th><td class="s">✓</td><td class="n">–</td><td class="n">–</td><td class="n">–</td></tr>
-        <tr><th><b>Pauta planejada</b><span>Os temas do pacote organizados pela nossa equipe</span></th><td class="s">✓</td><td class="n">–</td><td class="n">–</td><td class="n">–</td></tr>
-        <tr><th><b>Melhor horário e tendências</b><span>Pesquisa do seu nicho</span></th><td class="s">✓</td><td class="n">–</td><td class="n">–</td><td class="s">✓</td></tr>
-        <tr class="quem"><th><b>Quem posta</b><span>Postagem programada após a sua aprovação</span></th><td><em class="nos">A gente*</em></td><td><em>Você**</em></td><td><em>Você**</em></td><td><em class="nos">A gente*</em></td></tr>
-      </tbody>
-    </table></div>
-    <p class="cmp-nota">No Só edição, você grava do seu jeito, com o seu texto, e manda o vídeo para a gente. Por isso ele não inclui roteiro nem link de gravação.</p>
-  </div>
-</section>
-
-<!-- adicionais e regras -->
-<section>
-  <div class="wrap">
-    <div class="kick">Adicionais</div>
-    <h2>Quer mais?</h2>
-    <div class="g2" style="grid-template-columns:1fr;max-width:560px">
-      <div class="card"><h3>Vídeo avulso</h3><p>Precisa de um conteúdo a mais, fora do pacote? A gente faz.</p><div class="val">R$ 199 por vídeo</div><p style="font-size:13px;margin-top:4px">à vista no Pix ou 3x de R$ 66,33 sem juros</p></div>
-    </div>
-    <div class="kick" style="margin-top:56px">Como funciona o pacote</div>
-    <ul class="rules">
-      <li>Pagamento à vista via Pix ou em até 3x sem juros pelo link de pagamento. Os 45 dias de entrega começam a contar na confirmação do pagamento.</li>
-      <li>Você tem 90 dias para gravar tudo. Se a gravação atrasar, o prazo de entrega anda junto.</li>
-      <li>Vídeos de até 60 segundos. Vídeos mais longos contam como 2 conteúdos a cada 60 segundos.</li>
-      <li>Imagens de pacientes ou de outras pessoas só com autorização por escrito.</li>
-      <li>Não inclui filmagem presencial, tráfego pago nem gestão do perfil.</li>
-      <li>Sem renovação automática: um novo pacote é um novo combinado.</li>
-    </ul>
-  </div>
-</section>
-
-<section class="dark" id="contato">
-  <div class="wrap">
-    <span class="rec">PRONTO PARA GRAVAR</span>
-    <h2 style="margin-top:20px">Escolheu? <span class="r">A gente começa pelo roteiro.</span></h2>
-    <p class="lead">Chame a gente no WhatsApp com o pacote escolhido. A gente envia o contrato e o seu primeiro link de gravação.</p>
-    <a class="wa" id="waMain" href="#" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 2.9 2.9 0 0 0-.9 2.2 5 5 0 0 0 1.1 2.7 11.5 11.5 0 0 0 4.4 3.9c1.6.7 2.3.8 3.1.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.1-1.2l-.6-.3z"/></svg>Falar no WhatsApp</a>
-  </div>
-</section>
-
 <footer><div class="wrap"><span>© 2026 TakePronto · A.D.M Carneiro Junior · CNPJ 48.975.748/0001-36</span><span><a href="/">takepronto.com.br</a> · <a href="/privacidade/">Privacidade</a></span></div></footer>
-
 <script>
-const WA='https://wa.me/5592994947931?text=';
-const msg=p=>encodeURIComponent('Olá! Vi os planos da TakePronto e quero o pacote '+p+'.');
-document.getElementById('waMain').href=WA+encodeURIComponent('Olá! Vi os planos da TakePronto e quero escolher o meu pacote.');
-const ICON=document.querySelector('#waMain svg').outerHTML;
-const liga=()=>document.querySelectorAll('.go[data-plano]').forEach(a=>{a.href=WA+msg(a.dataset.plano);a.target='_blank';a.rel='noopener';if(!a.querySelector('svg'))a.insertAdjacentHTML('afterbegin',ICON)});
-// só vídeos: 3 modalidades x 3 tamanhos
-const MOD=[
- {n:'Só edição',p:[1359,1909,2259],inc:['Você grava e manda o vídeo','Edição completa','Capa e legenda','<b>Você posta**</b>']},
- {n:'Roteiro + edição',p:[1489,2099,2489],inc:['Roteiro escrito para você','Link de gravação','Edição completa','Capa e legenda','<b>Você posta**</b>']},
- {n:'Completo',p:[1999,2749,3209],inc:['Roteiro + edição','Melhor horário para postar','Tendências do seu nicho','<b>A gente posta por você*</b>']}];
-const Q=[8,12,15],NOME=['8 vídeos','12 vídeos','15 vídeos'];
-const brl=v=>v.toLocaleString('pt-BR');
-const x3=v=>{const p=v/3;return Number.isInteger(p)?p.toLocaleString('pt-BR'):p.toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2})};
-const pinta=m=>{
-  const M=MOD[m];
-  document.getElementById('vplans').innerHTML=Q.map((q,i)=>`<article class="plan${i===1?' hot':''}">${i===1?'<span class="badge">Mais escolhido</span>':''}
-    <h3>${NOME[i]}</h3><p class="for">${M.n}</p>
-    <div class="price"><small>R$</small><b>${brl(M.p[i])}</b></div><div class="once">à vista no Pix</div><div class="x3">ou <b>3x de R$ ${x3(M.p[i])}</b> sem juros no link</div>
-    <span class="per">R$ ${Math.round(M.p[i]/q)} por vídeo</span>
-    <ul>${M.inc.map(x=>'<li>'+x+'</li>').join('')}</ul>
-    <a class="go" data-plano="${M.n} ${NOME[i]} (R$ ${brl(M.p[i])})" href="#">Quero esse pacote</a></article>`).join('');
-  liga();
-};
-let atual=0;
-const BTN=[...document.querySelectorAll('.mods button')],DOT=[...document.querySelectorAll('.dots i')],VP=document.getElementById('vplans');
-const vai=(m,dir)=>{
-  m=(m+3)%3;if(m===atual&&dir)return;
-  BTN.forEach((b,i)=>{b.classList.toggle('on',i===m);b.setAttribute('aria-selected',i===m)});
-  DOT.forEach((d,i)=>d.classList.toggle('on',i===m));
-  if(dir){const box=BTN[m].parentElement;box.scrollTo({left:BTN[m].offsetLeft-(box.clientWidth-BTN[m].clientWidth)/2,behavior:'smooth'})}
-  if(!dir){atual=m;pinta(m);return}
-  VP.className='plans sai-'+(dir>0?'esq':'dir');
-  setTimeout(()=>{atual=m;pinta(m);VP.className='plans entra-'+(dir>0?'esq':'dir')},200);
-};
-BTN.forEach((b,i)=>b.addEventListener('click',()=>vai(i,i>atual?1:i<atual?-1:0)));
-document.querySelector('.mnav .prev').addEventListener('click',()=>vai(atual-1,-1));
-document.querySelector('.mnav .next').addEventListener('click',()=>vai(atual+1,1));
-let x0=null,y0=null;
-VP.addEventListener('touchstart',e=>{x0=e.touches[0].clientX;y0=e.touches[0].clientY},{passive:true});
-VP.addEventListener('touchend',e=>{if(x0===null)return;const dx=e.changedTouches[0].clientX-x0,dy=e.changedTouches[0].clientY-y0;x0=null;if(Math.abs(dx)>50&&Math.abs(dx)>Math.abs(dy))vai(atual+(dx<0?1:-1),dx<0?1:-1)},{passive:true});
-let px=null;VP.addEventListener('pointerdown',e=>{if(e.pointerType==='mouse')px=e.clientX});
-VP.addEventListener('pointerup',e=>{if(px===null)return;const dx=e.clientX-px;px=null;if(Math.abs(dx)>80)vai(atual+(dx<0?1:-1),dx<0?1:-1)});
-// no celular: arrastar a fileira de botões também troca a modalidade
-const MODS=document.querySelector('.mods');let tScroll=null;
-MODS.addEventListener('scroll',()=>{if(getComputedStyle(MODS).display!=='flex')return;clearTimeout(tScroll);tScroll=setTimeout(()=>{const c=MODS.scrollLeft+MODS.clientWidth/2;let best=0,bd=1e9;BTN.forEach((b,i)=>{const d=Math.abs(b.offsetLeft+b.clientWidth/2-c);if(d<bd){bd=d;best=i}});if(best!==atual)vai(best,best>atual?1:-1)},140)},{passive:true});
-vai(0,0);liga();
+document.getElementById('waAjuda').href='https://wa.me/5592994947931?text='+encodeURIComponent('Olá! Vi os planos da TakePronto e quero ajuda para escolher o meu pacote.');
 </script>
 </body>
 </html>
