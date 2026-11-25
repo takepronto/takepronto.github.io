@@ -142,6 +142,7 @@ footer a{color:inherit}
 .dots i{width:9px;height:9px;border-radius:50%;background:#cfc7ba;transition:width .25s,background .25s}
 .dots i.on{width:26px;border-radius:6px;background:var(--rec)}
 #vplans{touch-action:pan-y}
+@media (max-width:640px){#vplans,.plans{touch-action:pan-x pan-y}}
 #vplans.sai-esq{animation:saiE .22s ease forwards}#vplans.sai-dir{animation:saiD .22s ease forwards}
 #vplans.entra-esq{animation:entE .3s ease}#vplans.entra-dir{animation:entD .3s ease}
 @keyframes saiE{to{opacity:0;transform:translateX(-40px)}}@keyframes saiD{to{opacity:0;transform:translateX(40px)}}
@@ -470,6 +471,14 @@ document.querySelectorAll('.go[data-plano]').forEach(a=>{a.href=WA+msg(a.dataset
     marca();box.onscroll=()=>requestAnimationFrame(marca);
   };
   document.querySelectorAll('.plans').forEach(prep);
+  /* arrasta com mouse */
+  document.querySelectorAll('.plans').forEach(box=>{
+    let x0=null,s0=0,moveu=false;
+    box.addEventListener('pointerdown',e=>{if(e.pointerType!=='mouse'||!mq.matches)return;x0=e.clientX;s0=box.scrollLeft;moveu=false;box.style.scrollSnapType='none'});
+    addEventListener('pointermove',e=>{if(x0===null)return;const dx=e.clientX-x0;if(Math.abs(dx)>4)moveu=true;box.scrollLeft=s0-dx});
+    addEventListener('pointerup',()=>{if(x0===null)return;x0=null;box.style.scrollSnapType='';const cards=[...box.querySelectorAll('.plan')],c=box.scrollLeft+box.clientWidth/2;let b=cards[0],d=1e9;cards.forEach(k=>{const x=Math.abs(k.offsetLeft+k.clientWidth/2-c);if(x<d){d=x;b=k}});box.scrollTo({left:b.offsetLeft-(box.clientWidth-b.clientWidth)/2,behavior:'smooth'})});
+    box.addEventListener('click',e=>{if(moveu){e.preventDefault();e.stopPropagation();moveu=false}},true);
+  });
   const vp=document.getElementById('vplans');
   if(vp)new MutationObserver(()=>prep(vp)).observe(vp,{childList:true});
 })();
